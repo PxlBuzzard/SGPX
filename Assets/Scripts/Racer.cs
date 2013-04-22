@@ -5,10 +5,10 @@ public class Racer : MonoBehaviour
     public float acceleration;
     public float rotateSpeed;
     public float maxSpeed;
-    public float maxAngularVelocity;
-    public float maxRotation;
     public float boostAccelerationMultiplier;
     public float boostMaxSpeed;
+    public float maxAngularVelocity;
+    public float maxRotation;
     public float turnAcceleration;
     public GUIText velocity;
     public GameObject model;
@@ -58,7 +58,8 @@ public class Racer : MonoBehaviour
         particleSystem.emissionRate = ( rigidBody.velocity.magnitude / maxSpeed ) * 400.0f;
 
         // Display velocity
-        velocity.text = "Velocity: " + Mathf.RoundToInt( rigidBody.velocity.magnitude ).ToString() + "\n" + 
-            "Angular Velocity: " + rigidBody.angularVelocity.magnitude.ToString();
+        velocity.text = "Velocity: " + Mathf.RoundToInt( rigidBody.velocity.magnitude ).ToString() + "\n" +
+            "Angular Velocity: " + rigidBody.angularVelocity.magnitude.ToString() + "\n" +
+            "Current Turn: " + currentTurn;
     }
 }

@@ -6,9 +6,7 @@ public class RacerCamera : MonoBehaviour
     public Racer target;
     public float rotationSpeed;
     public float maxRotation;
-    public float damping;
-    public float angleMultiplier;
-    //private Quaternion previousRotation;
+    public float downAngleMultiplier;
     private Vector3 initialRotation;
     private Vector3 initialPosition;
     private float prevVelocity;
@@ -16,7 +14,6 @@ public class RacerCamera : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //previousRotation = transform.rotation;
         initialRotation = transform.localEulerAngles;
         initialPosition = transform.localPosition;
     }
@@ -48,7 +45,7 @@ public class RacerCamera : MonoBehaviour
             else if( transform.localEulerAngles.y < maxRotation + 10.0f )
                 rotationAngle = -rotationSpeed * Time.deltaTime;
         }
-        transform.RotateAround( target.transform.position, Vector3.up, rotationAngle );
+        transform.RotateAround( target.transform.position, target.transform.up, rotationAngle );
 
         // Reset camera if ship is going strait
         if( Mathf.Abs( transform.localPosition.x ) < 0.1f )
@@ -58,10 +55,10 @@ public class RacerCamera : MonoBehaviour
         }
 
         // Rotate camera down with speed
-        transform.RotateAround( target.transform.position, target.transform.right, ( prevVelocity - target.rigidbody.velocity.magnitude ) / angleMultiplier );
+        transform.RotateAround( target.transform.position, target.transform.right, ( prevVelocity - transform.InverseTransformDirection( target.rigidbody.velocity ).z ) / downAngleMultiplier );
 
         // Keep track of car velocity
-        prevVelocity = target.rigidbody.velocity.magnitude;
+        prevVelocity = transform.InverseTransformDirection( target.rigidbody.velocity ).z;
 
         // Don't ask.
         transform.localEulerAngles = new Vector3( transform.localEulerAngles.x, transform.localEulerAngles.y, 0.0f );

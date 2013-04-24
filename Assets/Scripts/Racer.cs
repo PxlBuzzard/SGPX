@@ -12,14 +12,18 @@ public class Racer : MonoBehaviour
     public float turnAcceleration;
     public GUIText velocity;
     public GameObject model;
-    public Rigidbody rigidBody;
-    public ParticleSystem particleSystem;
+    public ParticleSystem engineParticles;
+    public GameObject[] raycasters;
     private float currentTurn;
+    private RaycastHit[] raycastHits;
 
     // Use this for initialization
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody>();
+        Physics.gravity = new Vector3( 0, -250, 0 );
+        rigidbody.solverIterationCount = 8;
+
+        raycastHits = new RaycastHit[ raycasters.Length ];
     }
 
     // Update is called once per frame
@@ -27,6 +31,42 @@ public class Racer : MonoBehaviour
     {
         bool isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
 
+        // Rotate to match plane
+        // 0: Front
+        // 1: Back
+        // 2: Left
+        // 3: Right
+        // Do raycasts
+        for( int ii = 0; ii < raycasters.Length; ++ii )
+            Physics.Raycast( raycasters[ ii ].transform.position, -raycasters[ ii ].transform.up, out raycastHits[ ii ] );
+
+        //Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + ", " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
+
+        if( raycastHits[ 1 ].distance < 1.0f )
+            transform.Translate( 0.0f, 1.0f - raycastHits[ 1 ].distance, 0.0f );
+
+        // If on the track
+        if( raycastHits[ 0 ].distance < 1.0f )
+        {
+            // If the front and back of the ship are not balanced, rotate to balance them
+            if( raycastHits[ 0 ].distance != raycastHits[ 1 ].distance )
+                transform.Rotate(
+                    Mathf.Atan( ( raycastHits[ 0 ].distance - raycastHits[ 1 ].distance ) / ( raycasters[ 1 ].transform.localPosition.z - raycasters[ 0 ].transform.localPosition.z ) ),
+                    0.0f, 0.0f );
+            
+            //*
+            // Rotate up onto berms
+            if( Mathf.Abs( raycastHits[ 2 ].distance - raycastHits[ 3 ].distance ) > 0.05f )
+                transform.Rotate(
+                    0.0f, 0.0f,
+                    Mathf.Atan( ( raycastHits[ 2 ].distance - raycastHits[ 3 ].distance ) / ( raycasters[ 2 ].transform.localPosition.z - raycasters[ 3 ].transform.localPosition.z ) ) );
+            //*/
+        }
+        else
+        {
+            transform.Rotate( rigidbody.mass / 5.0f, 0.0f, 0.0f );
+        }
+        
         // Lean
         if( Input.GetAxis( "Horizontal" ) < 0.0f )
             currentTurn = Mathf.Max( new float[] { Input.GetAxis( "Horizontal" ), currentTurn - ( turnAcceleration * Time.deltaTime ) } );
@@ -38,28 +78,30 @@ public class Racer : MonoBehaviour
             currentTurn = 0.0f;
         model.transform.localRotation = Quaternion.Euler( 0.0f, 0.0f, maxRotation * currentTurn );
 
+        float forwardVelocity = transform.InverseTransformDirection( rigidbody.velocity ).z;
+
         // Rotate
-        rigidBody.AddTorque( rigidBody.transform.up * -currentTurn * rotateSpeed );
-        rigidBody.velocity = rigidBody.transform.forward * rigidBody.velocity.magnitude;
-        if( rigidBody.angularVelocity.magnitude > maxAngularVelocity )
-            rigidBody.angularVelocity = rigidBody.angularVelocity.normalized * maxAngularVelocity;
+        rigidbody.AddTorque( rigidbody.transform.up * -currentTurn * rotateSpeed );
+        rigidbody.velocity = rigidbody.transform.forward * forwardVelocity;
+        if( rigidbody.angularVelocity.magnitude > maxAngularVelocity )
+            rigidbody.angularVelocity = rigidbody.angularVelocity.normalized * maxAngularVelocity;
 
         // Accelerate
-        rigidBody.AddRelativeForce( 0.0f, 0.0f, ( Input.GetAxis( "Vertical" ) * acceleration * Time.deltaTime * ( isBoosting ? boostAccelerationMultiplier : 1.0f ) ) );
-        if( !isBoosting && rigidBody.velocity.magnitude > maxSpeed + 10.0f )
-            rigidbody.velocity = rigidbody.velocity.normalized * ( rigidbody.velocity.magnitude - 10.0f );
-        else if( !isBoosting && rigidBody.velocity.magnitude > maxSpeed )
-            rigidBody.velocity = rigidBody.velocity.normalized * maxSpeed;
-        else if( isBoosting && rigidbody.velocity.magnitude > boostMaxSpeed )
-            rigidBody.velocity = rigidBody.velocity.normalized * boostMaxSpeed;
+        rigidbody.AddForce( rigidbody.transform.forward * ( Input.GetAxis( "Vertical" ) * acceleration * Time.deltaTime * ( isBoosting ? boostAccelerationMultiplier : 1.0f ) ) );
+        if( !isBoosting && forwardVelocity > maxSpeed + 10.0f )
+            rigidbody.velocity = rigidbody.velocity.normalized * ( forwardVelocity - 10.0f );
+        else if( !isBoosting && forwardVelocity > maxSpeed )
+            rigidbody.velocity = rigidbody.velocity.normalized * maxSpeed;
+        else if( isBoosting && forwardVelocity > boostMaxSpeed )
+            rigidbody.velocity = rigidbody.velocity.normalized * boostMaxSpeed;
 
         // Set particles!
-        //particleSystem.startSpeed = ( rigidBody.velocity.magnitude / maxSpeed ) * 10.0f;
-        particleSystem.emissionRate = ( rigidBody.velocity.magnitude / maxSpeed ) * 400.0f;
+        //particleSystem.startSpeed = ( forwardVelocity / maxSpeed ) * 10.0f;
+        engineParticles.emissionRate = Input.GetAxis( "Vertical" ) * 400.0f;
 
         // Display velocity
-        velocity.text = "Velocity: " + Mathf.RoundToInt( rigidBody.velocity.magnitude ).ToString() + "\n" +
-            "Angular Velocity: " + rigidBody.angularVelocity.magnitude.ToString() + "\n" +
+        velocity.text = "Velocity: " + Mathf.RoundToInt( forwardVelocity ).ToString() + "\n" +
+            "Angular Velocity: " + rigidbody.angularVelocity.magnitude.ToString() + "\n" +
             "Current Turn: " + currentTurn;
     }
 }

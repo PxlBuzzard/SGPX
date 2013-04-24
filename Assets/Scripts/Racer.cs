@@ -16,6 +16,8 @@ public class Racer : MonoBehaviour
     public GameObject[] raycasters;
     private float currentTurn;
     private RaycastHit[] raycastHits;
+	private Vector3 spawnPosition;
+	private Quaternion spawnRotation;
 
     // Use this for initialization
     void Start()
@@ -24,6 +26,10 @@ public class Racer : MonoBehaviour
         rigidbody.solverIterationCount = 8;
 
         raycastHits = new RaycastHit[ raycasters.Length ];
+		
+		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
+		spawnPosition = new Vector3(0.0f, -119.3666f, -34.92551f);
+		spawnRotation = new Quaternion(0.0f, 180f, 0.0f, 1.0f);
     }
 
     // Update is called once per frame
@@ -104,4 +110,20 @@ public class Racer : MonoBehaviour
             "Angular Velocity: " + rigidbody.angularVelocity.magnitude.ToString() + "\n" +
             "Current Turn: " + currentTurn;
     }
+	
+	void OnTriggerEnter(Collider collider)
+	{
+		if (collider.name == "TrackFloor")
+		{
+			ResetLap();
+		}
+	}
+	
+	void ResetLap()
+	{
+		transform.position = spawnPosition;
+		transform.rotation = spawnRotation;
+		rigidbody.velocity = Vector3.zero;
+		GameObject.Find("FinishLine").GetComponent<Timer>().currentTime = 0;
+	}
 }

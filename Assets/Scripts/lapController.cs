@@ -22,12 +22,11 @@ public class lapController : MonoBehaviour
 		currentLapText.text = "Current Lap: " + lapTimer.currentTime;	
 	}
 
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collider)
     {
 		//checking to see when the ship crosses the finish line
-        if(collision.collider.name == "ShipContainer" && collision.collider.attachedRigidbody.velocity.magnitude > 0)
+        if (collider.name == "ShipContainer" && transform.InverseTransformDirection( collider.attachedRigidbody.velocity ).z < 0)
 		{
-			//collision.collider.
 			//sets your first lap as the fastest
 			if(fastestTime == 0)
 			{
@@ -41,11 +40,7 @@ public class lapController : MonoBehaviour
 			
 			fastestLapText.text = "Fastest Lap: " + fastestTime.ToString();
 			lapTimer.Reset();
+            lapTimer.LapTimer();
 		}
-	}
-	
-	void OnCollisionExit()
-	{
-		lapTimer.LapTimer();
 	}
 }

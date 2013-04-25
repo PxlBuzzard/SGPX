@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// Handle functions related to the race vehicle.
+/// </summary>
+/// <author>Colden Cullen</author>
+/// <contributor>Daniel Jost</contributor>
 public class Racer : MonoBehaviour
 {
     public float acceleration;
@@ -19,7 +24,9 @@ public class Racer : MonoBehaviour
 	private Vector3 spawnPosition;
 	private Quaternion spawnRotation;
 
-    // Use this for initialization
+    /// <summary>
+    /// Constructor.
+    /// </summary>
     void Start()
     {
         Physics.gravity = new Vector3( 0, -250, 0 );
@@ -32,7 +39,9 @@ public class Racer : MonoBehaviour
 		spawnRotation = new Quaternion(0.0f, 180f, 0.0f, 1.0f);
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Updates on a fixed time interval.
+    /// </summary>
     void FixedUpdate()
     {
         bool isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
@@ -46,10 +55,11 @@ public class Racer : MonoBehaviour
         for( int ii = 0; ii < raycasters.Length; ++ii )
             Physics.Raycast( raycasters[ ii ].transform.position, -raycasters[ ii ].transform.up, out raycastHits[ ii ] );
 
-        //Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + ", " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
-
+        Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + " / " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
+		
+		//hover off the ground
         if( raycastHits[ 1 ].distance < 1.0f )
-            transform.Translate( 0.0f, 1.0f - raycastHits[ 1 ].distance, 0.0f );
+            rigidbody.AddForce( 0.0f, 1.0f - raycastHits[ 1 ].distance, 0.0f );
 
         // If on the track
         if( raycastHits[ 0 ].distance < 1.0f )
@@ -60,15 +70,15 @@ public class Racer : MonoBehaviour
                     Mathf.Atan( ( raycastHits[ 0 ].distance - raycastHits[ 1 ].distance ) / ( raycasters[ 1 ].transform.localPosition.z - raycasters[ 0 ].transform.localPosition.z ) ),
                     0.0f, 0.0f );
             
-            //*
             // Rotate up onto berms
             if( Mathf.Abs( raycastHits[ 2 ].distance - raycastHits[ 3 ].distance ) > 0.05f )
                 transform.Rotate(
                     0.0f, 0.0f,
                     Mathf.Atan( ( raycastHits[ 2 ].distance - raycastHits[ 3 ].distance ) / ( raycasters[ 2 ].transform.localPosition.z - raycasters[ 3 ].transform.localPosition.z ) ) );
-            //*/
         }
-        else
+		//if going over a jump or off the track, turn the noise downwards
+        else if ((raycastHits[ 0 ].distance < 50.0f && raycastHits[ 1 ].distance < 50.0f) ||
+				(raycastHits[ 0 ].distance > 50.0f && raycastHits[ 1 ].distance > 50.0f))
         {
             transform.Rotate( rigidbody.mass / 5.0f, 0.0f, 0.0f );
         }
@@ -101,16 +111,22 @@ public class Racer : MonoBehaviour
         else if( isBoosting && forwardVelocity > boostMaxSpeed )
             rigidbody.velocity = rigidbody.velocity.normalized * boostMaxSpeed;
 
-        // Set particles!
-        //particleSystem.startSpeed = ( forwardVelocity / maxSpeed ) * 10.0f;
+        // Change particles based on input
         engineParticles.emissionRate = Input.GetAxis( "Vertical" ) * 400.0f;
 
         // Display velocity
-        velocity.text = "Velocity: " + Mathf.RoundToInt( forwardVelocity ).ToString() + "\n" +
-            "Angular Velocity: " + rigidbody.angularVelocity.magnitude.ToString() + "\n" +
-            "Current Turn: " + currentTurn;
+        velocity.text = 
+			/*"Velocity: " + */Mathf.RoundToInt( forwardVelocity ).ToString() + "\n";// +
+            //"Angular Velocity: " + rigidbody.angularVelocity.magnitude.ToString() + "\n" +
+            //"Current Turn: " + currentTurn;
     }
 	
+	/// <summary>
+	/// Fires on the first collision with a trigger collider.
+	/// </summary>
+	/// <param name='collider'>
+	/// Object being collided with.
+	/// </param>
 	void OnTriggerEnter(Collider collider)
 	{
 		if (collider.name == "TrackFloor")
@@ -119,10 +135,14 @@ public class Racer : MonoBehaviour
 		}
 	}
 	
+	/// <summary>
+	/// Resets the lap.
+	/// </summary>
 	void ResetLap()
 	{
 		transform.position = spawnPosition;
 		transform.rotation = spawnRotation;
+		rigidbody.angularVelocity = Vector3.zero;
 		rigidbody.velocity = Vector3.zero;
 		GameObject.Find("FinishLine").GetComponent<Timer>().currentTime = 0;
 	}

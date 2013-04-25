@@ -2,6 +2,7 @@
 /Library
 Temp
 build
+/obj
 
 # Ignore the following file extensions
 *.exe

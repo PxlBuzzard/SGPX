@@ -2163,7 +2163,7 @@ Skybox:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1515958161}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CustomSkybox: {fileID: 2100000, guid: ccce466bd312b0e46a16d2e6a6152099, type: 2}
 --- !u!1 &1650366517
 GameObject:
@@ -2339,6 +2339,7 @@ GameObject:
   - 4: {fileID: 1891273263}
   - 54: {fileID: 1891273264}
   - 114: {fileID: 1891273262}
+  - 114: {fileID: 1891273265}
   m_Layer: 0
   m_Name: Ship1
   m_TagString: Untagged
@@ -2373,6 +2374,8 @@ MonoBehaviour:
   - {fileID: 463632213}
   - {fileID: 227443069}
   - {fileID: 1064139127}
+  useVCR: 0
+  vcr: {fileID: 1891273265}
 --- !u!4 &1891273263
 Transform:
   m_ObjectHideFlags: 0
@@ -2403,6 +2406,33 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &1891273265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1891273261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b317d7dc041eb4d802320a20710444, type: 3}
+  m_Name: 
+  inputsToRecord:
+  - inputName: Horizontal
+    isAxis: 1
+    mouseButtonNum: 0
+    buttonState: 0
+    axisValue: 0
+  - inputName: Vertical
+    isAxis: 1
+    mouseButtonNum: 0
+    buttonState: 0
+    axisValue: 0
+  recordMouseEvents: 0
+  syncRecordLocations: 1
+  autoSyncLocationRate: 1
+  snapToSyncedLocation: 1
+  recordingFrameRate: 60
+  _mode: 1
 --- !u!1 &1938563959
 GameObject:
   m_ObjectHideFlags: 0

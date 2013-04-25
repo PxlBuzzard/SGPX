@@ -47,7 +47,7 @@ public class RacerCamera : MonoBehaviour
         }
         transform.RotateAround( target.transform.position, target.transform.up, rotationAngle );
 
-        // Reset camera if ship is going strait
+        // Reset camera if ship is going straight
         if( Mathf.Abs( transform.localPosition.x ) < 0.1f )
         {
             transform.localEulerAngles = new Vector3( transform.localEulerAngles.x, initialRotation.y, transform.localEulerAngles.z );
@@ -60,7 +60,7 @@ public class RacerCamera : MonoBehaviour
         // Keep track of car velocity
         prevVelocity = transform.InverseTransformDirection( target.rigidbody.velocity ).z;
 
-        // Don't ask.
+        // Keep camera from twisting out of control
         transform.localEulerAngles = new Vector3( transform.localEulerAngles.x, transform.localEulerAngles.y, 0.0f );
     }
 }

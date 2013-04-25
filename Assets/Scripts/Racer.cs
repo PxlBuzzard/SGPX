@@ -19,6 +19,8 @@ public class Racer : MonoBehaviour
     public GameObject model;
     public ParticleSystem engineParticles;
     public GameObject[] raycasters;
+	public bool useVCR;
+	public InputVCR vcr;
     private float currentTurn;
     private RaycastHit[] raycastHits;
 	private Vector3 spawnPosition;
@@ -30,7 +32,7 @@ public class Racer : MonoBehaviour
     void Start()
     {
         Physics.gravity = new Vector3( 0, -250, 0 );
-        rigidbody.solverIterationCount = 8;
+        rigidbody.solverIterationCount = 15;
 
         raycastHits = new RaycastHit[ raycasters.Length ];
 		
@@ -44,7 +46,11 @@ public class Racer : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
-        bool isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
+		bool isBoosting = false;
+		if( useVCR )
+			isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
+		else
+        	isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
 
         // Rotate to match plane
         // 0: Front
@@ -62,14 +68,6 @@ public class Racer : MonoBehaviour
             rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 0 ].distance, 0.0f );
 		if( raycastHits[ 1 ].distance < 1.5f )
             rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 1 ].distance, 0.0f );
-		
-		//shove out of the ground
-		//if ( raycastHits[ 0 ].collider.name == null)
-		//{
-			//Debug.Log("fuck the floor");
-			//rigidbody.AddForce( 0.0f, 5.0f, 0.0f );
-			//transform.Rotate( new Vector3 ( rigidbody.mass / 5.0f, 0.0f, 0.0f ) );
-		//}
 
         // If on the track
         if( raycastHits[ 0 ].distance < 1.5f || raycastHits[ 1 ].distance < 1.5f )
@@ -93,14 +91,28 @@ public class Racer : MonoBehaviour
         }
         
         // Lean
-        if( Input.GetAxis( "Horizontal" ) < 0.0f )
-            currentTurn = Mathf.Max( new float[] { Input.GetAxis( "Horizontal" ), currentTurn - ( turnAcceleration * Time.deltaTime ) } );
-        else if( Input.GetAxis( "Horizontal" ) > 0.0f )
-            currentTurn = Mathf.Min( new float[] { Input.GetAxis( "Horizontal" ), currentTurn + ( turnAcceleration * Time.deltaTime ) } );
-        else if( Mathf.Abs( currentTurn ) > 0.2f )
-            currentTurn = currentTurn + ( ( currentTurn > 0.0f ? -turnAcceleration : turnAcceleration ) * Time.deltaTime );
-        else
-            currentTurn = 0.0f;
+		if( useVCR )
+		{
+	        if( Input.GetAxis( "Horizontal" ) < 0.0f )
+	            currentTurn = Mathf.Max( new float[] { Input.GetAxis( "Horizontal" ), currentTurn - ( turnAcceleration * Time.deltaTime ) } );
+	        else if( Input.GetAxis( "Horizontal" ) > 0.0f )
+	            currentTurn = Mathf.Min( new float[] { Input.GetAxis( "Horizontal" ), currentTurn + ( turnAcceleration * Time.deltaTime ) } );
+	        else if( Mathf.Abs( currentTurn ) > 0.2f )
+	            currentTurn = currentTurn + ( ( currentTurn > 0.0f ? -turnAcceleration : turnAcceleration ) * Time.deltaTime );
+	        else
+	            currentTurn = 0.0f;
+		}
+		else
+		{
+			if( vcr.GetAxis( "Horizontal" ) < 0.0f )
+	            currentTurn = Mathf.Max( new float[] { vcr.GetAxis( "Horizontal" ), currentTurn - ( turnAcceleration * Time.deltaTime ) } );
+	        else if( vcr.GetAxis( "Horizontal" ) > 0.0f )
+	            currentTurn = Mathf.Min( new float[] { vcr.GetAxis( "Horizontal" ), currentTurn + ( turnAcceleration * Time.deltaTime ) } );
+	        else if( Mathf.Abs( currentTurn ) > 0.2f )
+	            currentTurn = currentTurn + ( ( currentTurn > 0.0f ? -turnAcceleration : turnAcceleration ) * Time.deltaTime );
+	        else
+	            currentTurn = 0.0f;
+		}
         model.transform.localRotation = Quaternion.Euler( 0.0f, 0.0f, maxRotation * currentTurn );
 
         float forwardVelocity = transform.InverseTransformDirection( rigidbody.velocity ).z;
@@ -112,7 +124,10 @@ public class Racer : MonoBehaviour
             rigidbody.angularVelocity = rigidbody.angularVelocity.normalized * maxAngularVelocity;
 
         // Accelerate
-        rigidbody.AddForce( rigidbody.transform.forward * ( Input.GetAxis( "Vertical" ) * acceleration * Time.deltaTime * ( isBoosting ? boostAccelerationMultiplier : 1.0f ) ) );
+		if( useVCR )
+			rigidbody.AddForce( rigidbody.transform.forward * ( vcr.GetAxis( "Vertical" ) * acceleration * Time.deltaTime * ( isBoosting ? boostAccelerationMultiplier : 1.0f ) ) );
+		else
+        	rigidbody.AddForce( rigidbody.transform.forward * ( Input.GetAxis( "Vertical" ) * acceleration * Time.deltaTime * ( isBoosting ? boostAccelerationMultiplier : 1.0f ) ) );
         if( !isBoosting && forwardVelocity > maxSpeed + 10.0f )
             rigidbody.velocity = rigidbody.velocity.normalized * ( forwardVelocity - 10.0f );
         else if( !isBoosting && forwardVelocity > maxSpeed )
@@ -121,13 +136,13 @@ public class Racer : MonoBehaviour
             rigidbody.velocity = rigidbody.velocity.normalized * boostMaxSpeed;
 
         // Change particles based on input
-        engineParticles.emissionRate = Input.GetAxis( "Vertical" ) * 400.0f;
+		if ( useVCR )
+			engineParticles.emissionRate = vcr.GetAxis( "Vertical" ) * 400.0f;
+		else
+        	engineParticles.emissionRate = Input.GetAxis( "Vertical" ) * 400.0f;
 
         // Display velocity
-        velocity.text = 
-			/*"Velocity: " + */Mathf.RoundToInt( forwardVelocity ).ToString() + "\n";// +
-            //"Angular Velocity: " + rigidbody.angularVelocity.magnitude.ToString() + "\n" +
-            //"Current Turn: " + currentTurn;
+        velocity.text = Mathf.RoundToInt( forwardVelocity ).ToString();
     }
 	
 	/// <summary>

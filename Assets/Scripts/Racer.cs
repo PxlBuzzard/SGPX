@@ -55,14 +55,24 @@ public class Racer : MonoBehaviour
         for( int ii = 0; ii < raycasters.Length; ++ii )
             Physics.Raycast( raycasters[ ii ].transform.position, -raycasters[ ii ].transform.up, out raycastHits[ ii ] );
 
-        Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + " / " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
+        Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + "  /  " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
 		
 		//hover off the ground
-        if( raycastHits[ 1 ].distance < 1.0f )
-            rigidbody.AddForce( 0.0f, 1.0f - raycastHits[ 1 ].distance, 0.0f );
+        if( raycastHits[ 0 ].distance < 1.0f )
+            rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 0 ].distance, 0.0f );
+		if( raycastHits[ 1 ].distance < 1.0f )
+            rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 1 ].distance, 0.0f );
+		
+		//shove out of the ground
+		//if ( raycastHits[ 0 ].collider.name == null)
+		//{
+			//Debug.Log("fuck the floor");
+			//rigidbody.AddForce( 0.0f, 5.0f, 0.0f );
+			//transform.Rotate( new Vector3 ( rigidbody.mass / 5.0f, 0.0f, 0.0f ) );
+		//}
 
         // If on the track
-        if( raycastHits[ 0 ].distance < 1.0f )
+        if( raycastHits[ 0 ].distance < 1.0f || raycastHits[ 1 ].distance < 1.0f )
         {
             // If the front and back of the ship are not balanced, rotate to balance them
             if( raycastHits[ 0 ].distance != raycastHits[ 1 ].distance )
@@ -77,8 +87,7 @@ public class Racer : MonoBehaviour
                     Mathf.Atan( ( raycastHits[ 2 ].distance - raycastHits[ 3 ].distance ) / ( raycasters[ 2 ].transform.localPosition.z - raycasters[ 3 ].transform.localPosition.z ) ) );
         }
 		//if going over a jump or off the track, turn the noise downwards
-        else if ((raycastHits[ 0 ].distance < 50.0f && raycastHits[ 1 ].distance < 50.0f) ||
-				(raycastHits[ 0 ].distance > 50.0f && raycastHits[ 1 ].distance > 50.0f))
+        else
         {
             transform.Rotate( rigidbody.mass / 5.0f, 0.0f, 0.0f );
         }

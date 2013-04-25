@@ -58,9 +58,9 @@ public class Racer : MonoBehaviour
         Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + "  /  " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
 		
 		//hover off the ground
-        if( raycastHits[ 0 ].distance < 1.0f )
+        if( raycastHits[ 0 ].distance < 1.5f )
             rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 0 ].distance, 0.0f );
-		if( raycastHits[ 1 ].distance < 1.0f )
+		if( raycastHits[ 1 ].distance < 1.5f )
             rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 1 ].distance, 0.0f );
 		
 		//shove out of the ground
@@ -72,7 +72,7 @@ public class Racer : MonoBehaviour
 		//}
 
         // If on the track
-        if( raycastHits[ 0 ].distance < 1.0f || raycastHits[ 1 ].distance < 1.0f )
+        if( raycastHits[ 0 ].distance < 1.5f || raycastHits[ 1 ].distance < 1.5f )
         {
             // If the front and back of the ship are not balanced, rotate to balance them
             if( raycastHits[ 0 ].distance != raycastHits[ 1 ].distance )

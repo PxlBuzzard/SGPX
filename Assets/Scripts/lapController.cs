@@ -1,46 +1,74 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Lap controller.
+/// </summary>
+/// <author>Pete O'Neal</author>
+/// <author>Daniel Jost</author>
 public class lapController : MonoBehaviour 
 {
 
-    //timer that will control lap
     public Timer lapTimer;
 	public GUIText currentLapText;
 	public GUIText fastestLapText;
     public float fastestTime = 0;
+	public Recording fastestRecording;
 
-	// Use this for initialization
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start () 
     {
         lapTimer.LapTimer();
 		fastestLapText.text = "";
 	}
 	
-	void Update()
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
+	void Update ()
 	{
-		currentLapText.text = "Current Lap: " + lapTimer.currentTime;	
+		currentLapText.text = "Current Lap Time: " + lapTimer.currentTime.ToString("f2");
 	}
-
-    void OnTriggerEnter(Collider collider)
+	
+	/// <summary>
+	/// Fires when the ship crosses the finish line.
+	/// </summary>
+	/// <param name='collider'>
+	/// The ship.
+	/// </param>
+    void OnTriggerEnter( Collider collider )
     {
 		//checking to see when the ship crosses the finish line
-        if (collider.name == "ShipContainer" && transform.InverseTransformDirection( collider.attachedRigidbody.velocity ).z < 0)
+        if( collider.transform.parent.tag == "Player" && transform.InverseTransformDirection( collider.attachedRigidbody.velocity ).z < 0 )
 		{
 			//sets your first lap as the fastest
-			if(fastestTime == 0)
+			//or if your current lap is faster then your fastest, make your current lap the new fastest
+			if( fastestTime == 0 || fastestTime > lapTimer.currentTime )
 			{
 				fastestTime = lapTimer.currentTime;
-			}
-			//if your current lap is less then your fastest, make your current lap the new fastest
-			else if(fastestTime > lapTimer.currentTime)
-			{
-				fastestTime = lapTimer.currentTime;	
+				Debug.Log( "New fastest time: " + fastestTime );
+				
+				//save the new ghost
+				if( collider.transform.parent.GetComponent<Racer>().useVCR )
+					fastestRecording = collider.transform.parent.GetComponent<InputVCR>().GetRecording();
 			}
 			
-			fastestLapText.text = "Fastest Lap: " + fastestTime.ToString();
+			//update fastest lap text
+			fastestLapText.text = "Fastest Lap: " + fastestTime.ToString("f2");
 			lapTimer.Reset();
             lapTimer.LapTimer();
+			
+			//set up ghost replay
+			if( collider.transform.parent.GetComponent<Racer>().useVCR )
+			{
+				//reset recording
+				collider.transform.parent.GetComponent<InputVCR>().NewRecording();
+				
+				//start fastest time recording
+				GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
+			}
 		}
 	}
 }

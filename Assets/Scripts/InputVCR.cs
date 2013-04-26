@@ -147,7 +147,7 @@ public class InputVCR : MonoBehaviour
 		else
 		{
 			// if not given any input string, will use last recording
-			Play ( currentRecording );
+			Play ( currentRecording, 0 );
 		}
 	}
 	
@@ -160,7 +160,7 @@ public class InputVCR : MonoBehaviour
 	/// <param name='startRecordingFromTime'>
 	/// OPTIONAL: Time to start recording at
 	/// </param>
-	public void Play( Recording recording, float startRecordingFromTime = 0 )
+	public void Play( Recording recording, float startRecordingFromTime )
 	{	
 		currentRecording = new Recording( recording );
 		currentFrame = recording.GetClosestFrame ( startRecordingFromTime );

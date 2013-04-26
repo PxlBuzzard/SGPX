@@ -7,16 +7,30 @@ using System.Collections;
 /// <author>Daniel Jost</author>
 public class GhostRacer : MonoBehaviour 
 {
-
-	// Use this for initialization
-	void Start () 
-	{
+	public InputVCR vcr;
+	private Recording replay;
 	
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
+	public void StartReplay () 
+	{
+		//enable scripts
+		GetComponent<Racer>().enabled = true;
+		GetComponent<InputVCR>().enabled = true;
+		
+		//grab the fastest replay and play
+		replay = GameObject.Find( "FinishLine" ).GetComponent<lapController>().fastestRecording;
+		vcr.Play( replay, 0 );
 	}
 	
-	// Update is called once per frame
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
 	void Update () 
 	{
-	
+		//start ghost over again
+		//if( replay != null && vcr.currentFrame > replay.totalFrames )
+		//	vcr.Play( replay, 0 );
 	}
 }

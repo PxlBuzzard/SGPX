@@ -39,6 +39,10 @@ public class Racer : MonoBehaviour
 		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
 		spawnPosition = new Vector3(0.0f, -119.3666f, -34.92551f);
 		spawnRotation = new Quaternion(0.0f, 180f, 0.0f, 1.0f);
+		
+		//start recording input at beginning of the lap
+		if( useVCR )
+			vcr.NewRecording();
     }
 
     /// <summary>
@@ -61,7 +65,7 @@ public class Racer : MonoBehaviour
         for( int ii = 0; ii < raycasters.Length; ++ii )
             Physics.Raycast( raycasters[ ii ].transform.position, -raycasters[ ii ].transform.up, out raycastHits[ ii ] );
 
-        Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + "  /  " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
+        //Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + "  /  " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
 		
 		//hover off the ground
         if( raycastHits[ 0 ].distance < 1.5f )
@@ -93,10 +97,10 @@ public class Racer : MonoBehaviour
         // Lean
 		if( useVCR )
 		{
-	        if( Input.GetAxis( "Horizontal" ) < 0.0f )
-	            currentTurn = Mathf.Max( new float[] { Input.GetAxis( "Horizontal" ), currentTurn - ( turnAcceleration * Time.deltaTime ) } );
-	        else if( Input.GetAxis( "Horizontal" ) > 0.0f )
-	            currentTurn = Mathf.Min( new float[] { Input.GetAxis( "Horizontal" ), currentTurn + ( turnAcceleration * Time.deltaTime ) } );
+	        if( vcr.GetAxis( "Horizontal" ) < 0.0f )
+	            currentTurn = Mathf.Max( new float[] { vcr.GetAxis( "Horizontal" ), currentTurn - ( turnAcceleration * Time.deltaTime ) } );
+	        else if( vcr.GetAxis( "Horizontal" ) > 0.0f )
+	            currentTurn = Mathf.Min( new float[] { vcr.GetAxis( "Horizontal" ), currentTurn + ( turnAcceleration * Time.deltaTime ) } );
 	        else if( Mathf.Abs( currentTurn ) > 0.2f )
 	            currentTurn = currentTurn + ( ( currentTurn > 0.0f ? -turnAcceleration : turnAcceleration ) * Time.deltaTime );
 	        else
@@ -104,10 +108,10 @@ public class Racer : MonoBehaviour
 		}
 		else
 		{
-			if( vcr.GetAxis( "Horizontal" ) < 0.0f )
-	            currentTurn = Mathf.Max( new float[] { vcr.GetAxis( "Horizontal" ), currentTurn - ( turnAcceleration * Time.deltaTime ) } );
-	        else if( vcr.GetAxis( "Horizontal" ) > 0.0f )
-	            currentTurn = Mathf.Min( new float[] { vcr.GetAxis( "Horizontal" ), currentTurn + ( turnAcceleration * Time.deltaTime ) } );
+			if( Input.GetAxis( "Horizontal" ) < 0.0f )
+	            currentTurn = Mathf.Max( new float[] { Input.GetAxis( "Horizontal" ), currentTurn - ( turnAcceleration * Time.deltaTime ) } );
+	        else if( Input.GetAxis( "Horizontal" ) > 0.0f )
+	            currentTurn = Mathf.Min( new float[] { Input.GetAxis( "Horizontal" ), currentTurn + ( turnAcceleration * Time.deltaTime ) } );
 	        else if( Mathf.Abs( currentTurn ) > 0.2f )
 	            currentTurn = currentTurn + ( ( currentTurn > 0.0f ? -turnAcceleration : turnAcceleration ) * Time.deltaTime );
 	        else
@@ -142,7 +146,8 @@ public class Racer : MonoBehaviour
         	engineParticles.emissionRate = Input.GetAxis( "Vertical" ) * 400.0f;
 
         // Display velocity
-        velocity.text = Mathf.RoundToInt( forwardVelocity ).ToString();
+		if (velocity )
+        	velocity.text = Mathf.RoundToInt( forwardVelocity ).ToString();
     }
 	
 	/// <summary>
@@ -169,5 +174,7 @@ public class Racer : MonoBehaviour
 		rigidbody.angularVelocity = Vector3.zero;
 		rigidbody.velocity = Vector3.zero;
 		GameObject.Find("FinishLine").GetComponent<Timer>().currentTime = 0;
+		if( useVCR )
+			vcr.NewRecording();
 	}
 }

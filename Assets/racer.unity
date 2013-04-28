@@ -399,8 +399,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7740c0824c59f5c449700ccfe2394564, type: 3}
   m_Name: 
-  playerName: Daniel J.
-  trackName: dev
+  playerID: 1
+  trackID: 1
   lapTimer: {fileID: 297496498}
   currentLapText: {fileID: 1205759376}
   fastestLapText: {fileID: 1512845918}
@@ -1343,10 +1343,6 @@ Prefab:
       propertyPath: velocityPlane
       value: 
       objectReference: {fileID: 1902419550}
-    - target: {fileID: 11400000, guid: 40efbabccc142214f8534e3dce11da43, type: 2}
-      propertyPath: rotateSpeed
-      value: 25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 40efbabccc142214f8534e3dce11da43, type: 2}
   m_RootGameObject: {fileID: 1475158801}
@@ -1500,7 +1496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6c26e06de79d4c4e8c492973b439ccb, type: 3}
   m_Name: 
   acceleration: 2000
-  rotateSpeed: 25
+  rotateSpeed: 175
   maxSpeed: 250
   boostAccelerationMultiplier: 5
   boostMaxSpeed: 350

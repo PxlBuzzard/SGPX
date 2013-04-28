@@ -32,7 +32,6 @@ public class Racer : MonoBehaviour
     void Start()
     {
         Physics.gravity = new Vector3( 0, -250, 0 );
-        rigidbody.solverIterationCount = 15;
 
         raycastHits = new RaycastHit[ raycasters.Length ];
 		
@@ -141,12 +140,15 @@ public class Racer : MonoBehaviour
 
         // Change particles based on input
 		if ( useVCR )
-			engineParticles.emissionRate = vcr.GetAxis( "Vertical" ) * 400.0f;
+            engineParticles.emissionRate = ( vcr.GetAxis( "Vertical" ) + ( isBoosting ? 1.0f : 0.0f ) ) * 400.0f;
 		else
-        	engineParticles.emissionRate = Input.GetAxis( "Vertical" ) * 400.0f;
+        	engineParticles.emissionRate = ( Input.GetAxis( "Vertical" ) + ( isBoosting ? 1.0f : 0.0f ) ) * 400.0f;
+
+        // Update physics iterations based on velocity
+        rigidbody.solverIterationCount = Mathf.Clamp( Mathf.RoundToInt( forwardVelocity ) / 13, 10, 26 );
 
         // Display velocity
-		if (velocity )
+		if( velocity )
         	velocity.text = Mathf.RoundToInt( forwardVelocity ).ToString();
     }
 	

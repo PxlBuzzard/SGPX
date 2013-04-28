@@ -15,7 +15,7 @@ public class Racer : MonoBehaviour
     public float maxAngularVelocity;
     public float maxRotation;
     public float turnAcceleration;
-    public GUIText velocity;
+    public TextMesh velocity;
     public GameObject model;
     public ParticleSystem engineParticles;
     public GameObject[] raycasters;
@@ -32,16 +32,19 @@ public class Racer : MonoBehaviour
     void Start()
     {
         Physics.gravity = new Vector3( 0, -250, 0 );
+        Physics.IgnoreCollision( model.collider, GameObject.Find( "Ship1Ghost" ).GetComponent<Racer>().model.collider );
 
         raycastHits = new RaycastHit[ raycasters.Length ];
-		
+
 		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
-		//spawnPosition = new Vector3(0.0f, -119.3666f, -34.92551f);
-		//spawnRotation = new Quaternion(0.0f, 180f, 0.0f, 1.0f);
+	    spawnPosition = new Vector3(0.0f, -119.3666f, -34.92551f);
+		spawnRotation = new Quaternion(0.0f, 180f, 0.0f, 1.0f);
 		
 		//SHIV TRACK SPAWN
 		//spawnPosition = new Vector3(-1332.388f, 42.35205f, 319.4836f);
 		//spawnRotation = new Quaternion(0.0f, 200f, 0.0f, 1.0f);
+
+        rigidbody.solverIterationCount = 20;
 		
 		//start recording input at beginning of the lap
 		if( useVCR )
@@ -143,14 +146,11 @@ public class Racer : MonoBehaviour
             rigidbody.velocity = rigidbody.velocity.normalized * boostMaxSpeed;
 
         // Change particles based on input
-		if ( useVCR )
+        if( useVCR )
             engineParticles.emissionRate = ( vcr.GetAxis( "Vertical" ) + ( isBoosting ? 1.0f : 0.0f ) ) * 400.0f;
-		else
-        	engineParticles.emissionRate = ( Input.GetAxis( "Vertical" ) + ( isBoosting ? 1.0f : 0.0f ) ) * 400.0f;
-
-        // Update physics iterations based on velocity
-        rigidbody.solverIterationCount = Mathf.Clamp( Mathf.RoundToInt( forwardVelocity ) / 13, 10, 26 );
-
+        else
+            engineParticles.emissionRate = ( Input.GetAxis( "Vertical" ) + ( isBoosting ? 1.0f : 0.0f ) ) * 400.0f;
+        
         // Display velocity
 		if( velocity )
         	velocity.text = Mathf.RoundToInt( forwardVelocity ).ToString();
@@ -180,7 +180,10 @@ public class Racer : MonoBehaviour
 		rigidbody.angularVelocity = Vector3.zero;
 		rigidbody.velocity = Vector3.zero;
 		GameObject.Find( "FinishLine" ).GetComponent<Timer>().currentTime = 0;
-		if( useVCR )
-			vcr.NewRecording();
+        if( useVCR )
+        {
+            vcr.NewRecording();
+            GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
+        }
 	}
 }

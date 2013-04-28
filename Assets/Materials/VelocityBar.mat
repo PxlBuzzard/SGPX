@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: VelocityBar
-  m_Shader: {fileID: 4800000, guid: 4b99f575f2134f845a1f74643ce17333, type: 3}
+  m_Shader: {fileID: 4800000, guid: eec425ff07c4c434684d7e036cf77895, type: 3}
   m_ShaderKeywords: []
   m_SavedProperties:
     serializedVersion: 2
@@ -23,6 +23,20 @@ Material:
         first:
           name: _Mask
         second:
+          m_Texture: {fileID: 2800000, guid: 889e538f8427fa14f89338a025317a7d, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BackgroundTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 5c8e5ed6ba9d3004f8e9d8b103f70429, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ForegroundTex
+        second:
           m_Texture: {fileID: 2800000, guid: 5fbb9bfb43578034c9603c9196b90ca3, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
@@ -30,9 +44,17 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .100000001
+        second: .283582062
+      data:
+        first:
+          name: _Progress
+        second: 1
     m_Colors:
       data:
         first:
           name: _Color
         second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _PositionAndScale
+        second: {r: 0, g: 0, b: 1, a: 1}

@@ -20,7 +20,7 @@ public class LapController : MonoBehaviour
     public string playerName;
     public string trackName;
     public Timer lapTimer;
-	public TextMesh currentLapText;
+	public GameObject racer;
     public GUIText fastestLapText;
     public GUIText leaderboardText;
     public float fastestTime = 0;
@@ -42,7 +42,7 @@ public class LapController : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		currentLapText.text = lapTimer.currentTime.ToString("f3");
+		//currentLapText.text = lapTimer.currentTime.ToString("f3");
 
         //UpdateScoreboard();
 	}

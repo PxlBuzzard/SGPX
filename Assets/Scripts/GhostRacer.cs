@@ -9,6 +9,7 @@ public class GhostRacer : MonoBehaviour
 {
 	public InputVCR vcr;
 	private Recording replay;
+	//private bool isPlaying = false;
 	
 	/// <summary>
 	/// Start this instance.
@@ -18,10 +19,13 @@ public class GhostRacer : MonoBehaviour
 		//enable scripts
 		GetComponent<Racer>().enabled = true;
 		GetComponent<InputVCR>().enabled = true;
+		transform.GetComponentInChildren<MeshRenderer>().enabled = true;
 		
 		//grab the fastest replay and play
 		replay = GameObject.Find( "FinishLine" ).GetComponent<lapController>().fastestRecording;
 		vcr.Play( replay, 0 );
+		vcr.finishedPlayback += replayFinished;
+		//isPlaying = true;
 	}
 	
 	/// <summary>
@@ -29,8 +33,20 @@ public class GhostRacer : MonoBehaviour
 	/// </summary>
 	void Update () 
 	{
-		//start ghost over again
-		//if( replay != null && vcr.currentFrame > replay.totalFrames )
-		//	vcr.Play( replay, 0 );
+	}
+	
+	public void replayFinished ()
+	{
+		//stop replay
+		vcr.Stop();
+		
+		//move to spawn position and hide the ship (for next replay)
+		rigidbody.position = transform.position = GetComponent<Racer>().spawnPosition;
+		rigidbody.velocity = Vector3.zero;
+		transform.GetComponentInChildren<MeshRenderer>().enabled = false;
+		//isPlaying = false;
+		
+		//disable script
+		GetComponent<Racer>().enabled = false;
 	}
 }

@@ -88,7 +88,7 @@ GameObject:
   - 136: {fileID: 13600000}
   m_Layer: 0
   m_Name: ShipContainer
-  m_TagString: ReplayGhost
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -330,6 +330,7 @@ MonoBehaviour:
   - {fileID: 100002}
   useVCR: 1
   vcr: {fileID: 11400004}
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -370,7 +371,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 100010}
   m_Material: {fileID: 13400000, guid: 7b5229a5ae7a38540b519993524e134c, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: .600000024
   m_Height: 5
   m_Direction: 2

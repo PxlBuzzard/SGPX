@@ -21,9 +21,9 @@ public class Racer : MonoBehaviour
     public GameObject[] raycasters;
 	public bool useVCR;
 	public InputVCR vcr;
+	public Vector3 spawnPosition;
     private float currentTurn;
     private RaycastHit[] raycastHits;
-	private Vector3 spawnPosition;
 	private Quaternion spawnRotation;
 
     /// <summary>
@@ -31,14 +31,18 @@ public class Racer : MonoBehaviour
     /// </summary>
     void Start()
     {
-        Physics.gravity = new Vector3( 0, -250, 0 );
+        //Physics.gravity = new Vector3( 0, -250, 0 );
         rigidbody.solverIterationCount = 15;
 
         raycastHits = new RaycastHit[ raycasters.Length ];
 		
 		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
-		spawnPosition = new Vector3(0.0f, -119.3666f, -34.92551f);
-		spawnRotation = new Quaternion(0.0f, 180f, 0.0f, 1.0f);
+		//spawnPosition = new Vector3(0.0f, -119.3666f, -34.92551f);
+		//spawnRotation = new Quaternion(0.0f, 180f, 0.0f, 1.0f);
+		
+		//SHIV TRACK SPAWN
+		//spawnPosition = new Vector3(-1332.388f, 42.35205f, 319.4836f);
+		//spawnRotation = new Quaternion(0.0f, 200f, 0.0f, 1.0f);
 		
 		//start recording input at beginning of the lap
 		if( useVCR )
@@ -146,7 +150,7 @@ public class Racer : MonoBehaviour
         	engineParticles.emissionRate = Input.GetAxis( "Vertical" ) * 400.0f;
 
         // Display velocity
-		if (velocity )
+		if ( velocity )
         	velocity.text = Mathf.RoundToInt( forwardVelocity ).ToString();
     }
 	
@@ -158,7 +162,7 @@ public class Racer : MonoBehaviour
 	/// </param>
 	void OnTriggerEnter(Collider collider)
 	{
-		if (collider.name == "TrackFloor")
+		if ( collider.name == "TrackFloor" )
 		{
 			ResetLap();
 		}
@@ -173,7 +177,7 @@ public class Racer : MonoBehaviour
 		transform.rotation = spawnRotation;
 		rigidbody.angularVelocity = Vector3.zero;
 		rigidbody.velocity = Vector3.zero;
-		GameObject.Find("FinishLine").GetComponent<Timer>().currentTime = 0;
+		GameObject.Find( "FinishLine" ).GetComponent<Timer>().currentTime = 0;
 		if( useVCR )
 			vcr.NewRecording();
 	}

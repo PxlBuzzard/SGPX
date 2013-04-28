@@ -232,7 +232,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 0, y: -119.366585, z: -34.9255066}
+  m_LocalPosition: {x: 0, y: -119.3666, z: -34.9255104}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 400000}
@@ -354,7 +354,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: .0500000007
   m_AngularDrag: 10
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
@@ -401,6 +401,7 @@ MonoBehaviour:
   - {fileID: 100006}
   useVCR: 1
   vcr: {fileID: 11400004}
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -432,6 +433,11 @@ MonoBehaviour:
     buttonState: 0
     axisValue: 0
   - inputName: Vertical
+    isAxis: 1
+    mouseButtonNum: 0
+    buttonState: 0
+    axisValue: 0
+  - inputName: Boost
     isAxis: 1
     mouseButtonNum: 0
     buttonState: 0

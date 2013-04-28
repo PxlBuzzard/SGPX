@@ -22,7 +22,7 @@ public class GhostRacer : MonoBehaviour
 		transform.GetComponentInChildren<MeshRenderer>().enabled = true;
 		
 		//grab the fastest replay and play
-		replay = GameObject.Find( "FinishLine" ).GetComponent<lapController>().fastestRecording;
+		replay = GameObject.Find( "FinishLine" ).GetComponent<LapController>().fastestRecording;
 		vcr.Play( replay, 0 );
 		vcr.finishedPlayback += replayFinished;
 		//isPlaying = true;

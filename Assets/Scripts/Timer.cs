@@ -1,7 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-
+/// <summary>
+/// Basic countdown and countup timer.
+/// </summary>
+/// <author>Daniel Jost</author>
 public class Timer : MonoBehaviour 
 {
 
@@ -9,13 +12,6 @@ public class Timer : MonoBehaviour
     public bool isFinished = false;
     public bool isRunning = false;
     private bool countUp = false;
- 
-
-	// Use this for initialization
-	void Start () 
-    {
-	
-	}
 
 
     /// <summary>

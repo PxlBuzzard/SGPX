@@ -4,9 +4,10 @@ using UnityEngine;
 /// Handle functions related to the race vehicle.
 /// </summary>
 /// <author>Colden Cullen</author>
-/// <contributor>Daniel Jost</contributor>
+/// <author>Daniel Jost</author>
 public class Racer : MonoBehaviour
 {
+	public bool useStaticUI;
     public float acceleration;
     public float rotateSpeed;
     public float maxSpeed;
@@ -15,26 +16,46 @@ public class Racer : MonoBehaviour
     public float maxAngularVelocity;
     public float maxRotation;
     public float turnAcceleration;
-    public TextMesh velocity;
     public GameObject model;
     public ParticleSystem engineParticles;
     public GameObject[] raycasters;
 	public bool useVCR;
 	public InputVCR vcr;
 	public Vector3 spawnPosition;
+	[HideInInspector]
+	public TextMesh lapTime;
     private float currentTurn;
     private RaycastHit[] raycastHits;
 	private Quaternion spawnRotation;
+	private GameObject velocityBar;
 
     /// <summary>
     /// Constructor.
     /// </summary>
     void Start()
     {
+		//set gravity on ship
         Physics.gravity = new Vector3( 0, -250, 0 );
-        Physics.IgnoreCollision( model.collider, GameObject.Find( "Ship1Ghost" ).GetComponent<Racer>().model.collider );
+		
+		//disable collision with ghost replay
+		if ( name == "Ship1" )
+       		Physics.IgnoreCollision( model.collider, GameObject.Find( "Ship1Ghost" ).GetComponent<Racer>().model.collider );
 
         raycastHits = new RaycastHit[ raycasters.Length ];
+		
+		//set up UI hooks
+		if( useStaticUI && transform.name != "Ship1Ghost" )
+		{
+			lapTime = transform.FindChild( "Main Camera" ).FindChild( "TimeText" ).gameObject.GetComponent<TextMesh>();
+			velocityBar = transform.FindChild( "Main Camera" ).FindChild( "Velocity Bar" ).gameObject;
+			lapTime.GetComponent<MeshRenderer>().enabled = velocityBar.GetComponent<MeshRenderer>().enabled = true;
+		}
+		else if ( transform.name != "Ship1Ghost" )
+		{
+			lapTime = model.transform.FindChild( "TimeText" ).gameObject.GetComponent<TextMesh>();
+			velocityBar = model.transform.FindChild( "Velocity Bar" ).gameObject;
+			lapTime.GetComponent<MeshRenderer>().enabled = velocityBar.GetComponent<MeshRenderer>().enabled = true;
+		}
 
 		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
 	    spawnPosition = new Vector3(0.0f, -119.3666f, -34.92551f);
@@ -56,6 +77,7 @@ public class Racer : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+		//Boost
 		bool isBoosting = false;
 		if( useVCR )
 			isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
@@ -152,8 +174,12 @@ public class Racer : MonoBehaviour
             engineParticles.emissionRate = ( Input.GetAxis( "Vertical" ) + ( isBoosting ? 1.0f : 0.0f ) ) * 400.0f;
         
         // Display velocity
-		if( velocity )
-        	velocity.text = Mathf.RoundToInt( forwardVelocity ).ToString();
+		if( lapTime )
+        	lapTime.text = Mathf.RoundToInt( forwardVelocity ).ToString();
+		
+		//velocity bar
+		if( velocityBar )
+			velocityBar.renderer.material.SetFloat( "_Progress", (float)(forwardVelocity / maxSpeed) );
     }
 	
 	/// <summary>

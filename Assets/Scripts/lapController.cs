@@ -23,8 +23,10 @@ public class LapController : MonoBehaviour
 	public GameObject racer;
     public GUIText fastestLapText;
     public GUIText leaderboardText;
+	[HideInInspector]
     public float fastestTime = 0;
 	public Recording fastestRecording;
+	private TextMesh currentLapText;
 
 	/// <summary>
 	/// Start this instance.
@@ -33,6 +35,7 @@ public class LapController : MonoBehaviour
     {
         lapTimer.LapTimer();
 		fastestLapText.text = "";
+		currentLapText = racer.GetComponent<Racer>().lapTime;
 
         //UpdateScoreboard();
 	}
@@ -42,7 +45,7 @@ public class LapController : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		//currentLapText.text = lapTimer.currentTime.ToString("f3");
+		currentLapText.text = lapTimer.currentTime.ToString("f3");
 
         //UpdateScoreboard();
 	}

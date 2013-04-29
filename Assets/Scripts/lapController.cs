@@ -17,6 +17,7 @@ public class LapController : MonoBehaviour
     private const string GET_SCORES_URL = "http://sgpx.coldencullen.com/php/getscores.php?";
     private const string ADD_SCORE_URL = "http://sgpx.coldencullen.com/php/addscore.php?";
 
+    public bool uploadTimes;
     public int playerID;
     public int trackID;
     public Timer lapTimer;
@@ -81,14 +82,18 @@ public class LapController : MonoBehaviour
             //string hash = Md5Sum( playerName + lapTime + SECRET_KEY );
             string hash = SECRET_KEY;
 
-            WWW result = new WWW(
-                ADD_SCORE_URL +
-                "userID=" + playerID +
-                "&trackID=" + trackID +
-                "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
-                "&hash=" + hash
-            );
-            Debug.Log(result.url);
+            if( uploadTimes )
+            {
+                WWW result = new WWW(
+                    ADD_SCORE_URL +
+                    "userID=" + playerID +
+                    "&trackID=" + trackID +
+                    "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
+                    "&hash=" + hash
+                );
+                Debug.Log( result.url );
+            }
+            
 			
 			//set up ghost replay
 			if( collider.transform.parent.GetComponent<Racer>().useVCR )

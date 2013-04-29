@@ -399,6 +399,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7740c0824c59f5c449700ccfe2394564, type: 3}
   m_Name: 
+  uploadTimes: 1
   playerID: 1
   trackID: 1
   lapTimer: {fileID: 297496498}

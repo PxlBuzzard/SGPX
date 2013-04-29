@@ -9,4 +9,5 @@ class LeaderboardEntry
     public string   Name    { get; set; }
     public string   Track   { get; set; }
     public double   Time    { get; set; }
+    public int      NumRuns { get; set; }
 }

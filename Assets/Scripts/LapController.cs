@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using System.IO;
+using System.Net;
 using System.Text;
 using System.Collections;
 using System.Security.Cryptography;
@@ -28,6 +30,8 @@ public class LapController : MonoBehaviour
     public float fastestTime = 0;
 	public Recording fastestRecording;
 	private TextMesh currentLapText;
+    private WWW upload;
+    private bool waitingForUpload = false;
 
 	/// <summary>
 	/// Start this instance.
@@ -36,8 +40,6 @@ public class LapController : MonoBehaviour
     {
         lapTimer.LapTimer();
 		fastestLapText.text = "";
-
-        //UpdateScoreboard();
 	}
 	
 	/// <summary>
@@ -48,8 +50,39 @@ public class LapController : MonoBehaviour
 		if( racer.GetComponent<Racer>().lapTime )
 			racer.GetComponent<Racer>().lapTime.text = lapTimer.currentTime.ToString("f3");
 
-        //UpdateScoreboard();
+        if( fastestRecording != null && upload != null && waitingForUpload )
+        {
+            if( upload.isDone )
+            {
+                waitingForUpload = false;
+
+                if( !String.IsNullOrEmpty( upload.text ) )
+                {
+                    UploadGhost();
+                }
+            }
+        }
 	}
+
+    void UploadGhost()
+    {
+        // Get object used to communicate with server
+        FtpWebRequest request = (FtpWebRequest)WebRequest.Create( "ftp://buckeye.dreamhost.com/sgpx.coldencullen.com/ghosts/" + upload.text );
+        request.Method = WebRequestMethods.Ftp.UploadFile;
+
+        // Login
+        request.Credentials = new NetworkCredential( "sgpx", "superracr" );
+
+        // Upload to server
+        byte[] fileContents = Encoding.UTF8.GetBytes( fastestRecording.ToString() );
+        request.ContentLength = fileContents.Length;
+
+        Stream requestStream = request.GetRequestStream();
+        requestStream.Write( fileContents, 0, fileContents.Length );
+        requestStream.Close();
+
+        Debug.Log( ( request.GetResponse() as FtpWebResponse ).StatusDescription );
+    }
 	
 	/// <summary>
 	/// Fires when the ship crosses the finish line.
@@ -87,28 +120,28 @@ public class LapController : MonoBehaviour
 
             if( uploadTimes )
             {
-                WWW result = new WWW(
+                upload = new WWW(
                     ADD_SCORE_URL +
                     "userID=" + playerID +
                     "&trackID=" + trackID +
                     "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
                     "&hash=" + hash
                 );
-                Debug.Log( result.url );
+                Debug.Log( upload.url );
+
+                waitingForUpload = true;
             }
             
 			
 			//set up ghost replay
-			if( collider.transform.parent.GetComponent<Racer>().useVCR )
-			{
-				//reset recording
-				collider.transform.parent.GetComponent<InputVCR>().NewRecording();
-				
-				//start fastest time recording
-				GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
-			}
+            if( collider.transform.parent.GetComponent<Racer>().useVCR )
+            {
+                //reset recording
+                collider.transform.parent.GetComponent<InputVCR>().NewRecording();
 
-            //UpdateScoreboard();
+                //start fastest time recording
+                GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
+            }
 		}
     }
 

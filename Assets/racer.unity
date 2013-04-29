@@ -518,7 +518,7 @@ MonoBehaviour:
   playerID: 1
   trackID: 1
   lapTimer: {fileID: 297496498}
-  racer: {fileID: 1729211427}
+  currentLapText: {fileID: 0}
   fastestLapText: {fileID: 1512845918}
   leaderboardText: {fileID: 1674204855}
   fastestTime: 0

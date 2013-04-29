@@ -14,11 +14,11 @@ using LitJson;
 public class LapController : MonoBehaviour 
 {
     private const string SECRET_KEY = "mySecretKey";
-    private const string GET_SCORES_URL = "http://sgpx.coldencullen.com/getscores.php?";
-    private const string ADD_SCORE_URL = "http://sgpx.coldencullen.com/addscore.php?";
+    private const string GET_SCORES_URL = "http://sgpx.coldencullen.com/php/getscores.php?";
+    private const string ADD_SCORE_URL = "http://sgpx.coldencullen.com/php/addscore.php?";
 
-    public string playerName;
-    public string trackName;
+    public int playerID;
+    public int trackID;
     public Timer lapTimer;
 	public GameObject racer;
     public GUIText fastestLapText;
@@ -34,7 +34,7 @@ public class LapController : MonoBehaviour
         lapTimer.LapTimer();
 		fastestLapText.text = "";
 
-        UpdateScoreboard();
+        //UpdateScoreboard();
 	}
 	
 	/// <summary>
@@ -83,12 +83,12 @@ public class LapController : MonoBehaviour
 
             WWW result = new WWW(
                 ADD_SCORE_URL +
-                "name=" + WWW.EscapeURL( playerName ) +
-                "&track=" + trackName +
+                "userID=" + playerID +
+                "&trackID=" + trackID +
                 "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
                 "&hash=" + hash
             );
-            //Debug.Log(result.url);
+            Debug.Log(result.url);
 			
 			//set up ghost replay
 			if( collider.transform.parent.GetComponent<Racer>().useVCR )
@@ -100,7 +100,7 @@ public class LapController : MonoBehaviour
 				GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
 			}
 
-            UpdateScoreboard();
+            //UpdateScoreboard();
 		}
     }
 
@@ -108,7 +108,7 @@ public class LapController : MonoBehaviour
     private void UpdateScoreboard()
     {
         // Request data
-        WWW bestTimes = new WWW( GET_SCORES_URL + "track=" + trackName );
+        WWW bestTimes = new WWW( GET_SCORES_URL + "track=" + trackID );
         while (!bestTimes.isDone) ;
 
         // Parse data to array of JSON objects

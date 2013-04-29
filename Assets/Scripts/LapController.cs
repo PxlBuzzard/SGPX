@@ -1,7 +1,5 @@
 using UnityEngine;
 using System;
-using System.IO;
-using System.Net;
 using System.Text;
 using System.Collections;
 using System.Security.Cryptography;
@@ -30,8 +28,6 @@ public class LapController : MonoBehaviour
     public float fastestTime = 0;
 	public Recording fastestRecording;
 	private TextMesh currentLapText;
-    private WWW upload;
-    private bool waitingForUpload = false;
 
 	/// <summary>
 	/// Start this instance.
@@ -51,37 +47,6 @@ public class LapController : MonoBehaviour
 	{
 		if( racer.GetComponent<Racer>().lapTime )
 			racer.GetComponent<Racer>().lapTime.text = lapTimer.currentTime.ToString("f3");
-
-        Debug.Log( upload + ", " + waitingForUpload + ", " + upload.isDone );
-
-        if( upload != null && waitingForUpload && upload.isDone )
-        {
-            Debug.Log( "Done Uploading!" );
-
-            waitingForUpload = false;
-
-            if( !String.IsNullOrEmpty( upload.text ) )
-            {
-                Debug.Log( "Response: " + upload.text );
-
-                // Get object used to communicate with server
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create( "ftp://buckeye.dreamhost.com/ghosts" + upload.text );
-                request.Method = WebRequestMethods.Ftp.UploadFile;
-
-                // Login
-                request.Credentials = new NetworkCredential( "sgpx", "superracr" );
-
-                // Upload to server
-                byte[] fileContents = Encoding.UTF8.GetBytes( fastestRecording.ToString() );
-                request.ContentLength = fileContents.Length;
-
-                Stream requestStream = request.GetRequestStream();
-                requestStream.Write( fileContents, 0, fileContents.Length );
-                requestStream.Close();
-
-
-            }
-        }
 
         //UpdateScoreboard();
 	}
@@ -122,16 +87,14 @@ public class LapController : MonoBehaviour
 
             if( uploadTimes )
             {
-                upload = new WWW(
+                WWW result = new WWW(
                     ADD_SCORE_URL +
                     "userID=" + playerID +
                     "&trackID=" + trackID +
                     "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
                     "&hash=" + hash
                 );
-                Debug.Log( upload.url );
-
-                waitingForUpload = true;
+                Debug.Log( result.url );
             }
             
 			

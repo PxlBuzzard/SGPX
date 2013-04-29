@@ -174,8 +174,8 @@ public class Racer : MonoBehaviour
             engineParticles.emissionRate = ( Input.GetAxis( "Vertical" ) + ( isBoosting ? 1.0f : 0.0f ) ) * 400.0f;
         
         // Display velocity
-		if( lapTime )
-        	lapTime.text = Mathf.RoundToInt( forwardVelocity ).ToString();
+		//if( lapTime )
+        //	lapTime.text = Mathf.RoundToInt( forwardVelocity ).ToString();
 		
 		//velocity bar
 		if( velocityBar )

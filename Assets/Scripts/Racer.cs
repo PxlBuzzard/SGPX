@@ -22,6 +22,7 @@ public class Racer : MonoBehaviour
 	public bool useVCR;
 	public InputVCR vcr;
 	public Vector3 spawnPosition;
+	public ParticleSystem speedLines;
 	[HideInInspector]
 	public TextMesh lapTime;
     private float currentTurn;
@@ -163,9 +164,19 @@ public class Racer : MonoBehaviour
         if( !isBoosting && forwardVelocity > maxSpeed + 10.0f )
             rigidbody.velocity = rigidbody.velocity.normalized * ( forwardVelocity - 10.0f );
         else if( !isBoosting && forwardVelocity > maxSpeed )
+		{
             rigidbody.velocity = rigidbody.velocity.normalized * maxSpeed;
+			speedLines.Play();
+		}
         else if( isBoosting && forwardVelocity > boostMaxSpeed )
+		{
             rigidbody.velocity = rigidbody.velocity.normalized * boostMaxSpeed;
+			speedLines.Play();
+		}
+		else
+		{
+			speedLines.Stop();
+		}
 
         // Change particles based on input
         if( useVCR )

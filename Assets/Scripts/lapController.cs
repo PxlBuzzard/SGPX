@@ -38,7 +38,7 @@ public class LapController : MonoBehaviour
 	/// </summary>
 	void Start() 
     {
-        lapTimer.LapTimer();
+        //lapTimer.LapTimer();
 		fastestLapText.text = "";
 	}
 	
@@ -95,53 +95,60 @@ public class LapController : MonoBehaviour
 		//checking to see when the ship crosses the finish line
         if( collider.transform.parent.tag == "Player" && transform.InverseTransformDirection( collider.attachedRigidbody.velocity ).z < 0 )
 		{
-            float lapTime = lapTimer.currentTime;
-
-			//sets your first lap as the fastest
-			//or if your current lap is faster then your fastest, make your current lap the new fastest
-			if( fastestTime == 0 || fastestTime > lapTime )
+			if( lapTimer.currentTime == 0.0f )
 			{
-				fastestTime = lapTime;
-				Debug.Log( "New fastest time: " + fastestTime );
-				
-				//save the new ghost
-				if( collider.transform.parent.GetComponent<Racer>().useVCR )
-					fastestRecording = collider.transform.parent.GetComponent<InputVCR>().GetRecording();
+				lapTimer.LapTimer();
 			}
-			
-			//update fastest lap text
-			fastestLapText.text = "Fastest Lap: " + fastestTime.ToString("f2");
-			lapTimer.Reset();
-            lapTimer.LapTimer();
-
-            // Send time to database
-            //string hash = Md5Sum( playerName + lapTime + SECRET_KEY );
-            string hash = SECRET_KEY;
-
-            if( uploadTimes )
-            {
-                upload = new WWW(
-                    ADD_SCORE_URL +
-                    "userID=" + playerID +
-                    "&trackID=" + trackID +
-                    "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
-                    "&hash=" + hash
-                );
-                Debug.Log( upload.url );
-
-                waitingForUpload = true;
-            }
-            
-			
-			//set up ghost replay
-            if( collider.transform.parent.GetComponent<Racer>().useVCR )
-            {
-                //reset recording
-                collider.transform.parent.GetComponent<InputVCR>().NewRecording();
-
-                //start fastest time recording
-                GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
-            }
+			else
+			{
+	            float lapTime = lapTimer.currentTime;
+	
+				//sets your first lap as the fastest
+				//or if your current lap is faster then your fastest, make your current lap the new fastest
+				if( fastestTime == 0 || fastestTime > lapTime )
+				{
+					fastestTime = lapTime;
+					Debug.Log( "New fastest time: " + fastestTime );
+					
+					//save the new ghost
+					if( collider.transform.parent.GetComponent<Racer>().useVCR )
+						fastestRecording = collider.transform.parent.GetComponent<InputVCR>().GetRecording();
+				}
+				
+				//update fastest lap text
+				fastestLapText.text = "Fastest Lap: " + fastestTime.ToString("f2");
+				lapTimer.Reset();
+	            lapTimer.LapTimer();
+	
+	            // Send time to database
+	            //string hash = Md5Sum( playerName + lapTime + SECRET_KEY );
+	            string hash = SECRET_KEY;
+	
+	            if( uploadTimes )
+	            {
+	                upload = new WWW(
+	                    ADD_SCORE_URL +
+	                    "userID=" + playerID +
+	                    "&trackID=" + trackID +
+	                    "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
+	                    "&hash=" + hash
+	                );
+	                Debug.Log( upload.url );
+	
+	                waitingForUpload = true;
+	            }
+	            
+				
+				//set up ghost replay
+	            if( collider.transform.parent.GetComponent<Racer>().useVCR )
+	            {
+	                //reset recording
+	                collider.transform.parent.GetComponent<InputVCR>().NewRecording();
+	
+	                //start fastest time recording
+	                GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
+	            }
+			}
 		}
     }
 

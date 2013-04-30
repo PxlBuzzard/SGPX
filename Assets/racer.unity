@@ -136,6 +136,65 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 896079964}
+--- !u!1 &74874641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 74874642}
+  - 33: {fileID: 74874645}
+  - 65: {fileID: 74874644}
+  - 114: {fileID: 74874647}
+  m_Layer: 0
+  m_Name: checkPoint1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &74874642
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 74874641}
+  m_LocalRotation: {x: -.57525903, y: .57525903, z: .411189854, w: .411189854}
+  m_LocalPosition: {x: .00817856006, y: -.0105997371, z: -.196354255}
+  m_LocalScale: {x: .0149999997, y: .00499999989, z: .00399999972}
+  m_Children: []
+  m_Father: {fileID: 1045607353}
+--- !u!65 &74874644
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 74874641}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &74874645
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 74874641}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &74874647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 74874641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e1dbe42b61da346b817df7a1eb8fef, type: 3}
+  m_Name: 
+  lapController: {fileID: 297496502}
 --- !u!1 &91504453
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,7 +1628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7740c0824c59f5c449700ccfe2394564, type: 3}
   m_Name: 
   uploadTimes: 1
-  playerID: 1
+  playerID: 4
   trackID: 1
   lapTimer: {fileID: 297496498}
   racer: {fileID: 1729211427}
@@ -2980,6 +3039,86 @@ MeshFilter:
   m_PrefabInternal: {fileID: 2017486303}
   m_GameObject: {fileID: 630610784}
   m_Mesh: {fileID: 4300000, guid: 86e29dc4c97af544cb8c3d2bd3bac49b, type: 3}
+--- !u!1 &634848197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 634848198}
+  - 33: {fileID: 634848202}
+  - 65: {fileID: 634848201}
+  - 114: {fileID: 634848200}
+  - 114: {fileID: 634848199}
+  m_Layer: 0
+  m_Name: checkPoint3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &634848198
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 634848197}
+  m_LocalRotation: {x: -.0885615498, y: .0885615498, z: .70153898, w: .70153898}
+  m_LocalPosition: {x: .00418464653, y: .1381246, z: .0504358821}
+  m_LocalScale: {x: .0140000004, y: .00399999972, z: .00399999926}
+  m_Children: []
+  m_Father: {fileID: 1045607353}
+--- !u!114 &634848199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 634848197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ee409e5a8788f4093448baf295e2fc, type: 3}
+  m_Name: 
+  currentTime: 0
+  isFinished: 0
+  isRunning: 0
+--- !u!114 &634848200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 634848197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7740c0824c59f5c449700ccfe2394564, type: 3}
+  m_Name: 
+  uploadTimes: 0
+  playerID: 4
+  trackID: 1
+  lapTimer: {fileID: 297496498}
+  racer: {fileID: 1729211427}
+  fastestLapText: {fileID: 1512845918}
+  leaderboardText: {fileID: 1674204855}
+  fastestTime: 0
+--- !u!65 &634848201
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 634848197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &634848202
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 634848197}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &771494890
 GameObject:
   m_ObjectHideFlags: 0
@@ -3212,6 +3351,9 @@ Transform:
   m_LocalPosition: {x: -.0900364593, y: -93.4843369, z: -.00069999072}
   m_LocalScale: {x: 5000, y: 5000, z: 5000}
   m_Children:
+  - {fileID: 74874642}
+  - {fileID: 1368046836}
+  - {fileID: 634848198}
   - {fileID: 297496501}
   - {fileID: 896079964}
   - {fileID: 281435179}
@@ -3397,6 +3539,86 @@ TextMesh:
   m_FontStyle: 2
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 3a0a532ce9369da45aabd12a517c31f1, type: 3}
+--- !u!1 &1368046835
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1368046836}
+  - 33: {fileID: 1368046840}
+  - 65: {fileID: 1368046839}
+  - 114: {fileID: 1368046838}
+  - 114: {fileID: 1368046837}
+  m_Layer: 0
+  m_Name: checkPoint2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1368046836
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1368046835}
+  m_LocalRotation: {x: -.707097709, y: .707097709, z: -.00358225871, w: -.00358225871}
+  m_LocalPosition: {x: -.0302496217, y: .226389006, z: .0690904036}
+  m_LocalScale: {x: .0140000004, y: .00399999972, z: .00399999926}
+  m_Children: []
+  m_Father: {fileID: 1045607353}
+--- !u!114 &1368046837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1368046835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ee409e5a8788f4093448baf295e2fc, type: 3}
+  m_Name: 
+  currentTime: 0
+  isFinished: 0
+  isRunning: 0
+--- !u!114 &1368046838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1368046835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7740c0824c59f5c449700ccfe2394564, type: 3}
+  m_Name: 
+  uploadTimes: 0
+  playerID: 4
+  trackID: 1
+  lapTimer: {fileID: 297496498}
+  racer: {fileID: 1729211427}
+  fastestLapText: {fileID: 1512845918}
+  leaderboardText: {fileID: 1674204855}
+  fastestTime: 0
+--- !u!65 &1368046839
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1368046835}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1368046840
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1368046835}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1381913228
 GameObject:
   m_ObjectHideFlags: 0

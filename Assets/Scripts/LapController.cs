@@ -150,8 +150,14 @@ public class LapController : MonoBehaviour
 	            }
 			}
 		}
+		
     }
-
+	
+	public void Checkpoint ()
+	{
+		//have a list of checkpoints, and check to see if you have passed them in numerical order	
+	}
+	
     // Update high scores
     private void UpdateScoreboard()
     {

@@ -98,6 +98,12 @@ public class LapController : MonoBehaviour
 			if( lapTimer.currentTime == 0.0f )
 			{
 				lapTimer.LapTimer();
+				
+				//start recording input at beginning of the lap
+				if( racer.GetComponent<Racer>().useVCR )
+				{
+					racer.GetComponent<Racer>().vcr.NewRecording();
+				}
 			}
 			else
 			{

@@ -204,6 +204,7 @@ public class InputVCR : MonoBehaviour
 		
 		SyncProperty( "position", Vector3ToString ( transform.position ) );
 		SyncProperty( "rotation", Vector3ToString ( transform.eulerAngles ) );
+		SyncProperty( "velocity", Vector3ToString( rigidbody.velocity ) );
 	}
 	
 	/// <summary>
@@ -281,6 +282,10 @@ public class InputVCR : MonoBehaviour
 						string rotString = currentRecording.GetProperty ( frame, "rotation" );
 						if ( !string.IsNullOrEmpty( rotString ) )
 							transform.eulerAngles = ParseVector3 ( rotString );
+						
+						string velString = currentRecording.GetProperty ( frame, "velocity" );
+						if ( !string.IsNullOrEmpty( velString ) )
+							rigidbody.velocity = ParseVector3 ( velString );
 					}
 				}
 				

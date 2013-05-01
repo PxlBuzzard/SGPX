@@ -67,10 +67,6 @@ public class Racer : MonoBehaviour
 		//spawnRotation = new Quaternion(0.0f, 200f, 0.0f, 1.0f);
 
         rigidbody.solverIterationCount = 20;
-		
-		//start recording input at beginning of the lap
-		if( useVCR )
-			vcr.NewRecording();
     }
 
     /// <summary>
@@ -90,6 +86,7 @@ public class Racer : MonoBehaviour
         // 1: Back
         // 2: Left
         // 3: Right
+		
         // Do raycasts
         for( int ii = 0; ii < raycasters.Length; ++ii )
             Physics.Raycast( raycasters[ ii ].transform.position, -raycasters[ ii ].transform.up, out raycastHits[ ii ] );
@@ -216,11 +213,6 @@ public class Racer : MonoBehaviour
 		transform.rotation = spawnRotation;
 		rigidbody.angularVelocity = Vector3.zero;
 		rigidbody.velocity = Vector3.zero;
-		GameObject.Find( "FinishLine" ).GetComponent<Timer>().currentTime = 0;
-        if( useVCR )
-        {
-            vcr.NewRecording();
-            GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
-        }
+		GameObject.Find( "FinishLine" ).GetComponent<Timer>().Reset();
 	}
 }

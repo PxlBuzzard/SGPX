@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CheckPoints : MonoBehaviour 
 {
-	//public LapController lapController;
+	public LapController lapController;
 
 	// Use this for initialization
 	void Start () {
@@ -12,7 +12,8 @@ public class CheckPoints : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+
 	}
 	
 	/// <summary>
@@ -24,9 +25,9 @@ public class CheckPoints : MonoBehaviour
     void OnTriggerEnter( Collider collider )
     {
 		//checking to see when the ship crosses the finish line
-        if( collider.transform.parent.tag == "Player" && transform.InverseTransformDirection( collider.attachedRigidbody.velocity ).z < 0 )
+        if( collider.transform.parent.tag == "Player" )
 		{
-            Debug.Log("Test");
+            lapController.Checkpoint();
 		}
 		
 	}

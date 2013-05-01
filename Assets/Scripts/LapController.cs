@@ -23,13 +23,15 @@ public class LapController : MonoBehaviour
     public int playerID;
     public int trackID;
     public Timer lapTimer;
+    public Timer delayTimer;
 	public GameObject racer;
     public GUIText fastestLapText;
     public GUIText leaderboardText;
+    //public float[] checkPointTimes;
+    //public List<GameObject> checkpoints = new List<GameObject>();
 	[HideInInspector]
     public float fastestTime = 0;
 	public Recording fastestRecording;
-	private TextMesh currentLapText;
     private WWW upload;
     private bool waitingForUpload = false;
 
@@ -40,6 +42,7 @@ public class LapController : MonoBehaviour
     {
         //lapTimer.LapTimer();
 		fastestLapText.text = "";
+        //checkPointTimes = new float[checkPointTimes.length];
 	}
 	
 	/// <summary>
@@ -61,6 +64,11 @@ public class LapController : MonoBehaviour
                     UploadGhost();
                 }
             }
+        }
+
+        if ( delayTimer.isFinished )
+        {
+            racer.GetComponent<Racer>().splitTimeText.text = "";
         }
 	}
 
@@ -162,6 +170,11 @@ public class LapController : MonoBehaviour
 	public void Checkpoint ()
 	{
 		//have a list of checkpoints, and check to see if you have passed them in numerical order	
+        if (racer.GetComponent<Racer>().splitTimeText)
+        {
+            delayTimer.Countdown(3.0f);
+            racer.GetComponent<Racer>().splitTimeText.text = "Check Point Time: " + lapTimer.currentTime.ToString("f3");
+        }
 	}
 	
     // Update high scores

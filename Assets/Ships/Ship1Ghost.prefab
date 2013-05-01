@@ -41,7 +41,7 @@ GameObject:
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
   m_Layer: 0
-  m_Name: Engine Thing
+  m_Name: Engine Emitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,12 +343,12 @@ MonoBehaviour:
   m_Name: 
   useStaticUI: 0
   acceleration: 2000
-  rotateSpeed: 175
+  rotateSpeed: 200
   maxSpeed: 250
   boostAccelerationMultiplier: 5
   boostMaxSpeed: 350
   maxAngularVelocity: 1.5
-  maxRotation: 15
+  maxRotation: 30
   turnAcceleration: 7
   model: {fileID: 100010}
   engineParticles: {fileID: 19800000}
@@ -393,7 +393,7 @@ MonoBehaviour:
   autoSyncLocationRate: 1
   snapToSyncedLocation: 1
   recordingFrameRate: 60
-  _mode: 2
+  _mode: 0
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -404,9 +404,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: .600000024
-  m_Height: 5
+  m_Height: 5.5
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -.125, z: .25}
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

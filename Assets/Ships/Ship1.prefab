@@ -650,7 +650,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6c26e06de79d4c4e8c492973b439ccb, type: 3}
   m_Name: 
-  useStaticUI: 1
+  useStaticUI: 0
   acceleration: 2000
   rotateSpeed: 200
   maxSpeed: 250
@@ -716,7 +716,7 @@ MonoBehaviour:
   autoSyncLocationRate: 1
   snapToSyncedLocation: 1
   recordingFrameRate: 60
-  _mode: 1
+  _mode: 0
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

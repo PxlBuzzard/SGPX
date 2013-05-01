@@ -24,12 +24,11 @@ public class Racer : MonoBehaviour
 	public InputVCR vcr;
 	public Vector3 spawnPosition;
 	public ParticleSystem speedLines;
-	[HideInInspector]
-	public TextMesh lapTime;
+	public RacerUI ui;
     private float currentTurn;
     private RaycastHit[] raycastHits;
 	private Quaternion spawnRotation;
-	private GameObject velocityBar;
+	private bool isBoosting = false;
 	#endregion
 
     /// <summary>
@@ -43,31 +42,23 @@ public class Racer : MonoBehaviour
 		//disable collision with ghost replay
 		if ( name == "Ship1" )
        		Physics.IgnoreCollision( model.collider, GameObject.Find( "Ship1Ghost" ).GetComponent<Racer>().model.collider );
-
+		
+		//initialize raycasts
         raycastHits = new RaycastHit[ raycasters.Length ];
 		
 		//set up UI hooks
-		if( useStaticUI && transform.name != "Ship1Ghost" )
-		{
-			lapTime = transform.FindChild( "Main Camera" ).FindChild( "TimeText" ).gameObject.GetComponent<TextMesh>();
-			velocityBar = transform.FindChild( "Main Camera" ).FindChild( "Velocity Bar" ).gameObject;
-			lapTime.GetComponent<MeshRenderer>().enabled = velocityBar.GetComponent<MeshRenderer>().enabled = true;
-		}
-		else if( transform.name != "Ship1Ghost" )
-		{
-			lapTime = model.transform.FindChild( "TimeText" ).gameObject.GetComponent<TextMesh>();
-			velocityBar = model.transform.FindChild( "Velocity Bar" ).gameObject;
-			lapTime.GetComponent<MeshRenderer>().enabled = velocityBar.GetComponent<MeshRenderer>().enabled = true;
-		}
+		if ( ui )
+			ui.Initialize( useStaticUI );
 
 		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
-	    spawnPosition = new Vector3(0.0f, -119.242f, 363.0434f);
-		spawnRotation = new Quaternion(0.0f, 180f, 0.0f, 1.0f);
+	    spawnPosition = new Vector3( 0.0f, -119.242f, 363.0434f );
+		spawnRotation = new Quaternion( 0.0f, 180f, 0.0f, 1.0f );
 		
 		//SHIV TRACK SPAWN
 		//spawnPosition = new Vector3(-1332.388f, 42.35205f, 319.4836f);
 		//spawnRotation = new Quaternion(0.0f, 200f, 0.0f, 1.0f);
-
+		
+		//make the ship update its physics like hella
         rigidbody.solverIterationCount = 20;
     }
 
@@ -77,7 +68,6 @@ public class Racer : MonoBehaviour
     void FixedUpdate()
     {
 		//Boost
-		bool isBoosting = false;
 		if( useVCR )
 			isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
 		else
@@ -182,14 +172,6 @@ public class Racer : MonoBehaviour
             engineParticles.emissionRate = ( vcr.GetAxis( "Vertical" ) + ( isBoosting ? 1.0f : 0.0f ) ) * 400.0f;
         else
             engineParticles.emissionRate = ( Input.GetAxis( "Vertical" ) + ( isBoosting ? 1.0f : 0.0f ) ) * 400.0f;
-        
-        // Display velocity
-		//if( lapTime )
-        //	lapTime.text = Mathf.RoundToInt( forwardVelocity ).ToString();
-		
-		//velocity bar
-		if( velocityBar )
-			velocityBar.renderer.material.SetFloat( "_Progress", (float)(forwardVelocity / maxSpeed) );
     }
 	
 	/// <summary>

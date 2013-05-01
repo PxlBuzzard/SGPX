@@ -38,7 +38,6 @@ public class LapController : MonoBehaviour
 	/// </summary>
 	void Start() 
     {
-        //lapTimer.LapTimer();
 		fastestLapText.text = "";
 	}
 	
@@ -47,9 +46,11 @@ public class LapController : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		if( racer.GetComponent<Racer>().lapTime )
-			racer.GetComponent<Racer>().lapTime.text = lapTimer.currentTime.ToString("f3");
-
+		//update the current time of the lap
+		if( racer.GetComponent<RacerUI>().lapTime )
+			racer.GetComponent<RacerUI>().lapTime.text = lapTimer.currentTime.ToString("f3");
+		
+		//upload scores to the server
         if( fastestRecording != null && upload != null && waitingForUpload )
         {
             if( upload.isDone )
@@ -63,7 +64,10 @@ public class LapController : MonoBehaviour
             }
         }
 	}
-
+	
+	/// <summary>
+	/// Uploads the ghost replay JSON file to a server.
+	/// </summary>
     void UploadGhost()
     {
         // Get object used to communicate with server

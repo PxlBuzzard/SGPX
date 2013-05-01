@@ -7,6 +7,7 @@ using UnityEngine;
 /// <author>Daniel Jost</author>
 public class Racer : MonoBehaviour
 {
+	#region Class Variables
 	public bool useStaticUI;
     public float acceleration;
     public float rotateSpeed;
@@ -22,12 +23,14 @@ public class Racer : MonoBehaviour
 	public bool useVCR;
 	public InputVCR vcr;
 	public Vector3 spawnPosition;
+	public ParticleSystem speedLines;
 	[HideInInspector]
 	public TextMesh lapTime;
     private float currentTurn;
     private RaycastHit[] raycastHits;
 	private Quaternion spawnRotation;
 	private GameObject velocityBar;
+	#endregion
 
     /// <summary>
     /// Constructor.
@@ -50,7 +53,7 @@ public class Racer : MonoBehaviour
 			velocityBar = transform.FindChild( "Main Camera" ).FindChild( "Velocity Bar" ).gameObject;
 			lapTime.GetComponent<MeshRenderer>().enabled = velocityBar.GetComponent<MeshRenderer>().enabled = true;
 		}
-		else if ( transform.name != "Ship1Ghost" )
+		else if( transform.name != "Ship1Ghost" )
 		{
 			lapTime = model.transform.FindChild( "TimeText" ).gameObject.GetComponent<TextMesh>();
 			velocityBar = model.transform.FindChild( "Velocity Bar" ).gameObject;
@@ -58,7 +61,7 @@ public class Racer : MonoBehaviour
 		}
 
 		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
-	    spawnPosition = new Vector3(0.0f, -119.3666f, -34.92551f);
+	    spawnPosition = new Vector3(0.0f, -119.242f, 363.0434f);
 		spawnRotation = new Quaternion(0.0f, 180f, 0.0f, 1.0f);
 		
 		//SHIV TRACK SPAWN
@@ -66,10 +69,6 @@ public class Racer : MonoBehaviour
 		//spawnRotation = new Quaternion(0.0f, 200f, 0.0f, 1.0f);
 
         rigidbody.solverIterationCount = 20;
-		
-		//start recording input at beginning of the lap
-		if( useVCR )
-			vcr.NewRecording();
     }
 
     /// <summary>
@@ -89,6 +88,7 @@ public class Racer : MonoBehaviour
         // 1: Back
         // 2: Left
         // 3: Right
+		
         // Do raycasts
         for( int ii = 0; ii < raycasters.Length; ++ii )
             Physics.Raycast( raycasters[ ii ].transform.position, -raycasters[ ii ].transform.up, out raycastHits[ ii ] );
@@ -163,9 +163,19 @@ public class Racer : MonoBehaviour
         if( !isBoosting && forwardVelocity > maxSpeed + 10.0f )
             rigidbody.velocity = rigidbody.velocity.normalized * ( forwardVelocity - 10.0f );
         else if( !isBoosting && forwardVelocity > maxSpeed )
+		{
             rigidbody.velocity = rigidbody.velocity.normalized * maxSpeed;
+			speedLines.Play();
+		}
         else if( isBoosting && forwardVelocity > boostMaxSpeed )
+		{
             rigidbody.velocity = rigidbody.velocity.normalized * boostMaxSpeed;
+			speedLines.Play();
+		}
+		else
+		{
+			speedLines.Stop();
+		}
 
         // Change particles based on input
         if( useVCR )
@@ -190,7 +200,8 @@ public class Racer : MonoBehaviour
 	/// </param>
 	void OnTriggerEnter(Collider collider)
 	{
-		if ( collider.name == "TrackFloor" )
+		//if the ship hits the track floor, reset the player
+		if( collider.name == "TrackFloor" )
 		{
 			ResetLap();
 		}
@@ -201,15 +212,15 @@ public class Racer : MonoBehaviour
 	/// </summary>
 	void ResetLap()
 	{
+		//reset position/rotation
 		transform.position = spawnPosition;
 		transform.rotation = spawnRotation;
+		
+		//reset velocities
 		rigidbody.angularVelocity = Vector3.zero;
 		rigidbody.velocity = Vector3.zero;
-		GameObject.Find( "FinishLine" ).GetComponent<Timer>().currentTime = 0;
-        if( useVCR )
-        {
-            vcr.NewRecording();
-            GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
-        }
+		
+		//reset the lap timer
+		GameObject.Find( "FinishLine" ).GetComponent<Timer>().Reset();
 	}
 }

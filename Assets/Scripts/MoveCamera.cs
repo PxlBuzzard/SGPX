@@ -3,13 +3,15 @@ using System.Collections;
 
 public class MoveCamera : MonoBehaviour {
 	
-	public GameObject camPos;
+	public GameObject creditPosition;
 	public GameObject mainPosition;
+	public GameObject inputPosition;
 	
 	public enum CamPositions
 	{
 		credits,
-		main
+		main,
+		input
 		
 	}
 	// Use this for initialization
@@ -26,13 +28,18 @@ public class MoveCamera : MonoBehaviour {
 	{
 		if(newPos == CamPositions.credits)
 		{
-			this.transform.position=camPos.transform.position;
-			this.transform.rotation=camPos.transform.rotation;
+			this.transform.position=creditPosition.transform.position;
+			this.transform.rotation=creditPosition.transform.rotation;
 		}
 		 else if (newPos == CamPositions.main)
 		{
 			this.transform.position=mainPosition.transform.position;
 			this.transform.rotation=mainPosition.transform.rotation;
+		}
+		else if(newPos == CamPositions.input)
+		{
+			this.transform.position=inputPosition.transform.position;
+			this.transform.rotation=inputPosition.transform.rotation;
 		}
 	}
 }

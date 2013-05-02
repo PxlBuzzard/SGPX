@@ -6,26 +6,34 @@ public class ButtonHover : MonoBehaviour {
 	public GameObject[] buttons;
 	public GameObject[] selectorIcon;
 	public GameObject[] backArray;
+	public GameObject[] goArray;
+	public UserInputName textField;
+	
 	int index=0;
-	int backIndex=0;
-	bool mainMenu = true;
 	int prevIndex=0;
+	
+	bool mainMenu = true;
 	bool btnReset = true;
 	bool backBtn = false;
+	bool playGame = false;
+
 	
 	// Use this for initialization
 	void Start () {
 		// have the play button be highlighted when openning the game
 		buttons[0].renderer.material.color= Color.cyan;
+		//  hard codes which little circles show up next to the buttons in when openning
 		selectorIcon[0].renderer.enabled =true;
 		selectorIcon[1].renderer.enabled =false;
 		selectorIcon[2].renderer.enabled =false;
 		
+		
+		
+		// highlights the back and go buttons
 		backArray[0].renderer.material.color = Color.cyan;
+		goArray[0].renderer.material.color = Color.cyan;
 		//backArray[1].renderer.enabled = true;
 		
-		/*index = 2;
-		prevIndex = 2;*/
 		
 	}
 	
@@ -34,29 +42,24 @@ public class ButtonHover : MonoBehaviour {
 		
 		hoverOver();
 		selectBtn ();
+		
+								GUI.SetNextControlName("playerName");
+				GUI.FocusControl("playerName");
 	}
 	
 	// Shows which button is selected
 	void hoverOver()
 	{
+		// if on the main menu
 		if (mainMenu)
 		{
 			if(btnReset)
 			{
 				prevIndex=index;
-				//RaycastHit press;
-				//bool hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), out press);
-				
 				// handles the switching between buttons
 				if(Input.GetAxis("Vertical")>0)
 				{
-					/*
-					index--;
-					if(index >= buttons.Length)
-					{
-						index = 0;
-					}
-					*/
+					
 					index--;
 					if(index < 0)
 					{
@@ -73,19 +76,12 @@ public class ButtonHover : MonoBehaviour {
 				}
 				else if(Input.GetAxis ("Vertical")<0)
 				{	
-					//*
 					index++;
 					if(index >= buttons.Length)
 					{
 						index = 0;
 					}
-					/*/
-					index++;
-					if(index < 0)
-					{
-						index= buttons.Length -1;
-					}
-					//*/
+				
 					selectorIcon[prevIndex].renderer.enabled =false;
 					selectorIcon[index].renderer.enabled = true;
 					
@@ -94,6 +90,7 @@ public class ButtonHover : MonoBehaviour {
 					btnReset=false;
 				}
 			}
+			// resets the buttons so you can infinitly scroll through them
 			else if(Input.GetAxis("Vertical")==0)
 			{
 				btnReset=true;
@@ -101,34 +98,49 @@ public class ButtonHover : MonoBehaviour {
 		}
 	}
 	
+	// helps with button selection
 	void selectBtn()
 	{
 		if(Input.GetButtonUp("select"))
 		{
+			// back button moves camera back to main menu
 			if (backBtn)
 			{
 				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.main);
 				mainMenu = true;
 				backBtn = false;
+				playGame = false;
 				
 			}
+			// plays the game
+			else if (playGame)
+			{
+				MonoBehaviour btn = goArray[0].GetComponent("hover Script") as MonoBehaviour;
+				btn.SendMessage("ButtonSelected",SendMessageOptions.RequireReceiver);
+			}
+			// goes to the credits 
 			else if(index == 1)
 			{
 				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.credits);
-				mainMenu = false;
+				mainMenu = false; 
 				backBtn = true;
+				playGame = false;
+	
+			}
+			// goes to player input page
+			else if(index == 0)
+			{
+				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.input);
+				//GameObject.Find ("GUI Text").GetComponent<UserInputName>().OnGUI(showGUI);
+				GUI.FocusControl("playerName");
+				textField.enabled=true;
+				
+				mainMenu = false;
+				backBtn = false;
+				playGame = true;
 				
 			}
-			else
-			{
-				MonoBehaviour btn = buttons[index].GetComponent("hover Script") as MonoBehaviour;
-				btn.SendMessage("ButtonSelected",SendMessageOptions.RequireReceiver);
-			}
-			
-			/* if(backArray[0])
-			{
-				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.main);	
-			}*/
+
 		}
 	}
 }

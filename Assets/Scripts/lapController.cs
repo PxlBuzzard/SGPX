@@ -177,7 +177,7 @@ public class LapController : MonoBehaviour
         if (racer.GetComponent<Racer>().splitTimeText)
         {
             delayTimer.Countdown(3.0f);
-            racer.GetComponent<Racer>().splitTimeText.text = "Check Point Time: " + lapTimer.currentTime.ToString("f3");
+            racer.GetComponent<Racer>().splitTimeText.text = "CHECK POINT TIME: " + lapTimer.currentTime.ToString("f3");
         }
 	}
 	

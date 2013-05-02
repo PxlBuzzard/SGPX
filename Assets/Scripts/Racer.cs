@@ -52,12 +52,12 @@ public class Racer : MonoBehaviour
 			ui.Initialize( useStaticUI );
 
 		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
-	    //spawnPosition = new Vector3( 0.0f, -119.242f, 363.0434f );
-		//spawnRotation = new Quaternion( 0.0f, 180f, 0.0f, 1.0f );
+	    spawnPosition = new Vector3( 0.0f, -119.242f, 363.0434f );
+		spawnRotation = new Quaternion( 0.0f, 180f, 0.0f, 1.0f );
 		
 		//SHIV TRACK SPAWN
-		spawnPosition = new Vector3(-179.4068f, 34.04115f, -44.46555f);
-		spawnRotation = new Quaternion(0.0f, 243f, 0.0f, 1.0f);
+		//spawnPosition = new Vector3(-179.4068f, 34.04115f, -44.46555f);
+		//spawnRotation = new Quaternion(0.0f, 243f, 0.0f, 1.0f);
 		
 		//make the ship update its physics like hella
         rigidbody.solverIterationCount = 20;
@@ -69,10 +69,10 @@ public class Racer : MonoBehaviour
     void FixedUpdate()
     {
 		//Boost
-		if( useVCR )
-			isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
-		else
-        	isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
+		//if( useVCR )
+			//isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
+		//else
+        	//isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
 
         // Rotate to match plane
         // 0: Front

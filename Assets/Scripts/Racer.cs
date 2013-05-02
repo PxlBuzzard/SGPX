@@ -22,6 +22,7 @@ public class Racer : MonoBehaviour
     public GameObject[] raycasters;
 	public bool useVCR;
 	public InputVCR vcr;
+    public TextMesh splitTimeText;
 	public Vector3 spawnPosition;
 	public ParticleSystem speedLines;
 	public RacerUI ui;

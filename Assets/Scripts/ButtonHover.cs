@@ -1,7 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class ButtonHover : MonoBehaviour {
+public class ButtonHover : MonoBehaviour
+{
+	// Leaderboard values
+	private const string SECRET_KEY = "mySecretKey";
+	private const string GET_USER_URL = "http://sgpx.coldencullen.com/php/getuser.php?";
+	string hash = SECRET_KEY;
+	WWW getName;
+	
 	//variables
 	public GameObject[] buttons;
 	public GameObject[] selectorIcon;
@@ -115,8 +122,18 @@ public class ButtonHover : MonoBehaviour {
 			// plays the game
 			else if (playGame)
 			{
-				MonoBehaviour btn = goArray[0].GetComponent("hover Script") as MonoBehaviour;
-				btn.SendMessage("ButtonSelected",SendMessageOptions.RequireReceiver);
+				getName = new WWW(
+		            GET_USER_URL +
+		            "name=" + WWW.EscapeURL( textField.PlayerName ) +
+		            "&hash=" + hash
+		        );
+				
+				while( !getName.isDone );
+				
+				UserIDController.Instance.userID = int.Parse( getName.text );
+				
+				MonoBehaviour btn = goArray[ 0 ].GetComponent( "hover Script" ) as MonoBehaviour;
+				btn.SendMessage( "ButtonSelected", SendMessageOptions.RequireReceiver );
 			}
 			// goes to the credits 
 			else if(index == 1)
@@ -140,7 +157,6 @@ public class ButtonHover : MonoBehaviour {
 				playGame = true;
 				
 			}
-
 		}
 	}
 }

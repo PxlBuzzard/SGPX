@@ -20,7 +20,6 @@ public class LapController : MonoBehaviour
     private const string ADD_SCORE_URL = "http://sgpx.coldencullen.com/php/addscore.php?";
 
     public bool uploadTimes;
-    public int playerID;
     public int trackID;
     public Timer lapTimer;
     public Timer delayTimer;
@@ -146,7 +145,7 @@ public class LapController : MonoBehaviour
 	            {
 	                upload = new WWW(
 	                    ADD_SCORE_URL +
-	                    "userID=" + playerID +
+	                    "userID=" + UserIDController.Instance.userID +
 	                    "&trackID=" + trackID +
 	                    "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
 	                    "&hash=" + hash

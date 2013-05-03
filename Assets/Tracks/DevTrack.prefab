@@ -284,8 +284,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: -.5, y: .5, z: .5, w: .5}
-  m_LocalPosition: {x: .00447876565, y: -.123193927, z: -1.80072911e-05}
-  m_LocalScale: {x: .00999999978, y: .00199999986, z: .00199999986}
+  m_LocalPosition: {x: .00322075188, y: -.123193927, z: -1.80072911e-05}
+  m_LocalScale: {x: .0140000004, y: .00499999989, z: .00199999986}
   m_Children: []
   m_Father: {fileID: 400016}
 --- !u!4 &400006
@@ -842,7 +842,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7740c0824c59f5c449700ccfe2394564, type: 3}
   m_Name: 
   uploadTimes: 1
-  playerID: 2
   trackID: 1
   lapTimer: {fileID: 11400000}
   delayTimer: {fileID: 11400006}

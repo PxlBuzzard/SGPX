@@ -30,6 +30,7 @@ public class Racer : MonoBehaviour
     private RaycastHit[] raycastHits;
 	private Quaternion spawnRotation;
 	private bool isBoosting = false;
+	private bool isPaused = false;
 	#endregion
 
     /// <summary>
@@ -68,6 +69,24 @@ public class Racer : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+		//Check for lap reset button
+		if( vcr.GetButtonDown( "Reset" ) )
+			ResetLap();
+		else if( Input.GetButtonDown( "Reset" ) )
+			ResetLap();
+		
+		//Check for pause button, doesn't actually work yet
+		if( vcr.GetButtonDown( "Reset" ) )
+		{
+			Time.timeScale = 0;
+			isPaused = true;
+		}
+		else if( Input.GetButtonDown( "Reset" ) && isPaused )
+		{
+			Time.timeScale = 1;
+			isPaused = false;
+		}
+		
 		//Boost
 		//if( useVCR )
 			//isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
@@ -205,5 +224,8 @@ public class Racer : MonoBehaviour
 		
 		//reset the lap timer
 		GameObject.Find( "FinishLine" ).GetComponent<Timer>().Reset();
+		
+		//kill the ghost
+		GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().replayFinished();
 	}
 }

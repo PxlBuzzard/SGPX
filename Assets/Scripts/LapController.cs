@@ -111,7 +111,12 @@ public class LapController : MonoBehaviour
 				lapTimer.LapTimer();
 				
 				//start recording input at beginning of the lap
-				if( racer.GetComponent<Racer>().useVCR )
+				if( racer.GetComponent<Racer>().useVCR && fastestRecording != null )
+				{
+					//start fastest time recording
+	                GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
+				}
+				else if( racer.GetComponent<Racer>().useVCR )
 				{
 					racer.GetComponent<Racer>().vcr.NewRecording();
 				}

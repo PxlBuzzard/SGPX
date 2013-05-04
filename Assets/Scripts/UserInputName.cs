@@ -6,11 +6,10 @@ public class UserInputName : MonoBehaviour
 	private const string SECRET_KEY = "mySecretKey";
 	private const string GET_USER_URL = "http://sgpx.coldencullen.com/php/getuser.php?";
 	string hash = SECRET_KEY;
-	WWW getName;
 	
 	private string playerName = "";
 	public GUIStyle TextStyle = new GUIStyle();
-	public int fontSize;
+	public int fontSize; 
 
 	public string PlayerName
 	{
@@ -24,17 +23,20 @@ public class UserInputName : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+	
 		
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		
 	}
 	
 	void OnGUI()
 	{
-		playerName = GUI.TextField( new Rect(300,250,670,100), playerName, TextStyle );
+		float halfScH = Screen.height/2;
+		float halfScW = Screen.width/2;
+		playerName = GUI.TextField( new Rect((halfScW/2),( halfScH),(halfScW),(halfScH/4)), playerName, TextStyle );
 	}
 }

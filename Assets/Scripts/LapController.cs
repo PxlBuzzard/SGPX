@@ -26,8 +26,8 @@ public class LapController : MonoBehaviour
 	public GameObject racer;
     public GUIText fastestLapText;
     public GUIText leaderboardText;
-    //public float[] checkPointTimes;
-    //public List<GameObject> checkpoints = new List<GameObject>();
+    public int checkpointCounter = 0;
+    public GameObject[] checkpoints;
 	[HideInInspector]
     public float fastestTime = 0;
 	public Recording fastestRecording;
@@ -123,56 +123,70 @@ public class LapController : MonoBehaviour
 			}
 			else
 			{
-	            float lapTime = lapTimer.currentTime;
-	
-				//sets your first lap as the fastest
-				//or if your current lap is faster then your fastest, make your current lap the new fastest
-				if( fastestTime == 0 || fastestTime > lapTime )
+                //check to see if they passed through all 3 checkpoints
+                if (checkpointCounter == 3)
+                {
+                    checkpointCounter = 0;
+
+                    float lapTime = lapTimer.currentTime;
+
+                    //sets your first lap as the fastest
+                    //or if your current lap is faster then your fastest, make your current lap the new fastest
+                    if (fastestTime == 0 || fastestTime > lapTime)
+                    {
+                        fastestTime = lapTime;
+                        Debug.Log("New fastest time: " + fastestTime);
+
+                        //save the new ghost
+                        if (collider.transform.parent.GetComponent<Racer>().useVCR)
+                            fastestRecording = collider.transform.parent.GetComponent<InputVCR>().GetRecording();
+                    }
+
+                    //update fastest lap text
+                    fastestLapText.text = "Fastest Lap: " + fastestTime.ToString("f2");
+                    lapTimer.Reset();
+                    lapTimer.LapTimer();
+
+                    // Send time to database
+                    //string hash = Md5Sum( playerName + lapTime + SECRET_KEY );
+                    string hash = SECRET_KEY;
+
+                    if (uploadTimes)
+                    {
+                        upload = new WWW(
+                            ADD_SCORE_URL +
+                            "userID=" + UserIDController.Instance.userID +
+                            "&trackID=" + trackID +
+                            "&time=" + (Mathf.Round(lapTime * 1000.0f) / 1000.0f) +
+                            "&hash=" + hash
+                        );
+                        Debug.Log(upload.url);
+
+                        waitingForUpload = true;
+                    }
+
+
+                    //set up ghost replay
+                    if (collider.transform.parent.GetComponent<Racer>().useVCR)
+                    {
+                        //reset recording
+                        collider.transform.parent.GetComponent<InputVCR>().NewRecording();
+
+                        //start fastest time recording
+                        GameObject.Find("Ship1Ghost").GetComponent<GhostRacer>().StartReplay();
+                    }
+                }
+				//if the player did not pass through all the checkpoints then this code is executed
+				else
 				{
-					fastestTime = lapTime;
-					Debug.Log( "New fastest time: " + fastestTime );
-					
-					//save the new ghost
-					if( collider.transform.parent.GetComponent<Racer>().useVCR )
-						fastestRecording = collider.transform.parent.GetComponent<InputVCR>().GetRecording();
+					delayTimer.Countdown(5.0f);
+					racer.GetComponent<Racer>().splitTimeText.text = "You missed a checkpoint. That lap will not count!";
+					checkpointCounter = 0;
+					lapTimer.Reset();
+                    lapTimer.LapTimer();
 				}
-				
-				//update fastest lap text
-				fastestLapText.text = "Fastest Lap: " + fastestTime.ToString("f2");
-				lapTimer.Reset();
-	            lapTimer.LapTimer();
-	
-	            // Send time to database
-	            //string hash = Md5Sum( playerName + lapTime + SECRET_KEY );
-	            string hash = SECRET_KEY;
-	
-	            if( uploadTimes )
-	            {
-	                upload = new WWW(
-	                    ADD_SCORE_URL +
-	                    "userID=" + UserIDController.Instance.userID +
-	                    "&trackID=" + trackID +
-	                    "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
-	                    "&hash=" + hash
-	                );
-	                Debug.Log( upload.url );
-	
-	                waitingForUpload = true;
-	            }
-	            
-				
-				//set up ghost replay
-	            if( collider.transform.parent.GetComponent<Racer>().useVCR )
-	            {
-	                //reset recording
-	                collider.transform.parent.GetComponent<InputVCR>().NewRecording();
-	
-	                //start fastest time recording
-	                GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
-	            }
 			}
-		}
-		
+		}		
     }
 	
 	public void Checkpoint ()

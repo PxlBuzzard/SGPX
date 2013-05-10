@@ -9,10 +9,11 @@ using System.Security.Cryptography;
 using LitJson;
 
 /// <summary>
-/// Lap controller.
+/// A script to handle ghosts, leaderboards, and checkpoints.
 /// </summary>
 /// <author>Pete O'Neal</author>
 /// <author>Daniel Jost</author>
+/// <author>Colden Cullen</author>
 public class LapController : MonoBehaviour 
 {
     private const string SECRET_KEY = "mySecretKey";
@@ -20,7 +21,6 @@ public class LapController : MonoBehaviour
     private const string ADD_SCORE_URL = "http://sgpx.coldencullen.com/php/addscore.php?";
 
     public bool uploadTimes;
-    public int trackID;
     public Timer lapTimer;
     public Timer delayTimer;
 	public GameObject racer;
@@ -33,6 +33,7 @@ public class LapController : MonoBehaviour
 	public Recording fastestRecording;
     private WWW upload;
     private bool waitingForUpload = false;
+	private int trackID;
 
 	/// <summary>
 	/// Start this instance.
@@ -40,7 +41,7 @@ public class LapController : MonoBehaviour
 	void Start() 
     {
 		fastestLapText.text = "";
-        //checkPointTimes = new float[checkPointTimes.length];
+		trackID = transform.parent.GetComponent<Track>().trackID;
 	}
 	
 	/// <summary>
@@ -65,7 +66,8 @@ public class LapController : MonoBehaviour
                 }
             }
         }
-
+		
+		//hide the split time text after the timer is up
         if ( delayTimer.isFinished )
         {
             racer.GetComponent<Racer>().splitTimeText.text = "";

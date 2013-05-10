@@ -39,17 +39,17 @@ public class Racer : MonoBehaviour
     void Start()
     {
 		//set gravity on ship
-        Physics.gravity = new Vector3( 0, -250, 0 );
+        //Physics.gravity = new Vector3( 0, -250, 0 );
 		
 		//disable collision with ghost replay
-		if ( name == "Ship1" )
+		if( name == "Ship1" )
        		Physics.IgnoreCollision( model.collider, GameObject.Find( "Ship1Ghost" ).GetComponent<Racer>().model.collider );
 		
 		//initialize raycasts
         raycastHits = new RaycastHit[ raycasters.Length ];
 		
 		//set up UI hooks
-		if ( ui )
+		if( ui )
 			ui.Initialize( useStaticUI );
 
 		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
@@ -88,10 +88,10 @@ public class Racer : MonoBehaviour
 		}
 		
 		//Boost
-		//if( useVCR )
-			//isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
-		//else
-        	//isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
+		if( useVCR )
+			isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
+		else
+        	isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
 
         // Rotate to match plane
         // 0: Front
@@ -106,13 +106,11 @@ public class Racer : MonoBehaviour
         //Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + "  /  " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
 		
 		//hover off the ground
-        if( raycastHits[ 0 ].distance < 1.5f )
-            rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 0 ].distance, 0.0f );
-		if( raycastHits[ 1 ].distance < 1.5f )
-            rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 1 ].distance, 0.0f );
+        if( raycastHits[ 0 ].distance < 40f && raycastHits[ 1 ].distance < 40f )
+            rigidbody.AddRelativeForce( 0.0f, 200.0f, 0.0f );
 
         // If on the track
-        if( raycastHits[ 0 ].distance < 1.5f || raycastHits[ 1 ].distance < 1.5f )
+        if( raycastHits[ 0 ].distance < 2f || raycastHits[ 1 ].distance < 2f )
         {
             // If the front and back of the ship are not balanced, rotate to balance them
             if( raycastHits[ 0 ].distance != raycastHits[ 1 ].distance )

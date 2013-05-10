@@ -150,7 +150,7 @@ public class ButtonHover : MonoBehaviour
 				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.Input);
 				//GameObject.Find ("GUI Text").GetComponent<UserInputName>().OnGUI(showGUI);
 				GUI.FocusControl("playerName");
-				textField.enabled=true;
+				//textField.enabled=true;
 				
 				mainMenu = false;
 				backBtn = false;

@@ -1,3 +1,4 @@
+#region Using Statements
 using UnityEngine;
 using System;
 using System.IO;
@@ -5,34 +6,41 @@ using System.Net;
 using System.Text;
 using System.Collections;
 using System.Security.Cryptography;
-
 using LitJson;
+#endregion
 
 /// <summary>
-/// Lap controller.
+/// A script to handle ghosts, leaderboards, and checkpoints.
 /// </summary>
 /// <author>Pete O'Neal</author>
 /// <author>Daniel Jost</author>
+/// <author>Colden Cullen</author>
 public class LapController : MonoBehaviour 
 {
+	#region Constants
     private const string SECRET_KEY = "mySecretKey";
     private const string GET_SCORES_URL = "http://sgpx.coldencullen.com/php/getscores.php?";
     private const string ADD_SCORE_URL = "http://sgpx.coldencullen.com/php/addscore.php?";
-
+	private const string FTP_USER = "sgpx";
+	private const string FTP_PASSWORD = "superracr";
+	#endregion
+	
+	#region Variables
     public bool uploadTimes;
-    public int trackID;
     public Timer lapTimer;
     public Timer delayTimer;
 	public GameObject racer;
     public GUIText fastestLapText;
     public GUIText leaderboardText;
-    //public float[] checkPointTimes;
-    //public List<GameObject> checkpoints = new List<GameObject>();
+    public int checkpointCounter = 0;
+    public GameObject[] checkpoints;
 	[HideInInspector]
     public float fastestTime = 0;
 	public Recording fastestRecording;
     private WWW upload;
     private bool waitingForUpload = false;
+	private int trackID;
+	#endregion
 
 	/// <summary>
 	/// Start this instance.
@@ -40,7 +48,9 @@ public class LapController : MonoBehaviour
 	void Start() 
     {
 		fastestLapText.text = "";
-        //checkPointTimes = new float[checkPointTimes.length];
+		
+		//get the track ID from the parent Track script
+		trackID = transform.parent.GetComponent<Track>().trackID;
 	}
 	
 	/// <summary>
@@ -65,7 +75,8 @@ public class LapController : MonoBehaviour
                 }
             }
         }
-
+		
+		//hide the split time text after the timer is up
         if ( delayTimer.isFinished )
         {
             racer.GetComponent<Racer>().splitTimeText.text = "";
@@ -82,7 +93,8 @@ public class LapController : MonoBehaviour
         request.Method = WebRequestMethods.Ftp.UploadFile;
 
         // Login
-        request.Credentials = new NetworkCredential( "sgpx", "superracr" );
+		//NOTE: Hardcoding our login credentials here is not a smart idea.
+        request.Credentials = new NetworkCredential( FTP_USER, FTP_PASSWORD );
 
         // Upload to server
         byte[] fileContents = Encoding.UTF8.GetBytes( fastestRecording.ToString() );
@@ -106,81 +118,106 @@ public class LapController : MonoBehaviour
 		//checking to see when the ship crosses the finish line
         if( collider.transform.parent.tag == "Player" && transform.InverseTransformDirection( collider.attachedRigidbody.velocity ).z < 0 )
 		{
+			//start the lap timer if it hasn't started
 			if( lapTimer.currentTime == 0.0f )
 			{
 				lapTimer.LapTimer();
 				
 				//start recording input at beginning of the lap
-				if( racer.GetComponent<Racer>().useVCR )
+				if( racer.GetComponent<Racer>().useVCR && fastestRecording != null )
+				{
+					//start fastest time recording
+	                GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
+				}
+				else if( racer.GetComponent<Racer>().useVCR )
 				{
 					racer.GetComponent<Racer>().vcr.NewRecording();
 				}
 			}
 			else
 			{
-	            float lapTime = lapTimer.currentTime;
-	
-				//sets your first lap as the fastest
-				//or if your current lap is faster then your fastest, make your current lap the new fastest
-				if( fastestTime == 0 || fastestTime > lapTime )
+                //check to see if they passed through all 3 checkpoints
+                if (checkpointCounter == checkpoints.Length)
+                {
+                    checkpointCounter = 0;
+
+                    float lapTime = lapTimer.currentTime;
+
+                    //sets your first lap as the fastest
+                    //or if your current lap is faster then your fastest, make your current lap the new fastest
+                    if (fastestTime == 0 || fastestTime > lapTime)
+                    {
+                        fastestTime = lapTime;
+                        Debug.Log("New fastest time: " + fastestTime);
+
+                        //save the new ghost
+                        if (collider.transform.parent.GetComponent<Racer>().useVCR)
+                            fastestRecording = collider.transform.parent.GetComponent<InputVCR>().GetRecording();
+                    }
+
+                    //update fastest lap text
+                    fastestLapText.text = "Fastest Lap: " + fastestTime.ToString("f2");
+                    lapTimer.Reset();
+                    lapTimer.LapTimer();
+
+                    // Send time to database
+                    //string hash = Md5Sum( playerName + lapTime + SECRET_KEY );
+                    string hash = SECRET_KEY;
+
+                    if (uploadTimes)
+                    {
+                        upload = new WWW(
+                            ADD_SCORE_URL +
+                            "userID=" + UserIDController.Instance.userID +
+                            "&trackID=" + trackID +
+                            "&time=" + (Mathf.Round(lapTime * 1000.0f) / 1000.0f) +
+                            "&hash=" + hash
+                        );
+                        Debug.Log(upload.url);
+
+                        waitingForUpload = true;
+                    }
+
+
+                    //set up ghost replay
+                    if (collider.transform.parent.GetComponent<Racer>().useVCR)
+                    {
+                        //reset recording
+                        collider.transform.parent.GetComponent<InputVCR>().NewRecording();
+
+                        //start fastest time recording
+                        GameObject.Find("Ship1Ghost").GetComponent<GhostRacer>().StartReplay();
+                    }
+                }
+				//if the player did not pass through all the checkpoints then this code is executed
+				else
 				{
-					fastestTime = lapTime;
-					Debug.Log( "New fastest time: " + fastestTime );
-					
-					//save the new ghost
-					if( collider.transform.parent.GetComponent<Racer>().useVCR )
-						fastestRecording = collider.transform.parent.GetComponent<InputVCR>().GetRecording();
+					delayTimer.Countdown(5.0f);
+					racer.GetComponent<Racer>().splitTimeText.text = "You missed a checkpoint. That lap will not count!";
+					checkpointCounter = 0;
+					lapTimer.Reset();
+                    lapTimer.LapTimer();
 				}
-				
-				//update fastest lap text
-				fastestLapText.text = "Fastest Lap: " + fastestTime.ToString("f2");
-				lapTimer.Reset();
-	            lapTimer.LapTimer();
-	
-	            // Send time to database
-	            //string hash = Md5Sum( playerName + lapTime + SECRET_KEY );
-	            string hash = SECRET_KEY;
-	
-	            if( uploadTimes )
-	            {
-	                upload = new WWW(
-	                    ADD_SCORE_URL +
-	                    "userID=" + UserIDController.Instance.userID +
-	                    "&trackID=" + trackID +
-	                    "&time=" + ( Mathf.Round( lapTime * 1000.0f ) / 1000.0f ) +
-	                    "&hash=" + hash
-	                );
-	                Debug.Log( upload.url );
-	
-	                waitingForUpload = true;
-	            }
-	            
-				
-				//set up ghost replay
-	            if( collider.transform.parent.GetComponent<Racer>().useVCR )
-	            {
-	                //reset recording
-	                collider.transform.parent.GetComponent<InputVCR>().NewRecording();
-	
-	                //start fastest time recording
-	                GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().StartReplay();
-	            }
 			}
-		}
-		
+		}		
     }
 	
+	/// <summary>
+	/// Fires when the racer crosses a checkpoint.
+	/// </summary>
 	public void Checkpoint ()
 	{
 		//have a list of checkpoints, and check to see if you have passed them in numerical order	
         if (racer.GetComponent<Racer>().splitTimeText)
         {
             delayTimer.Countdown(3.0f);
-            racer.GetComponent<Racer>().splitTimeText.text = "Check Point Time: " + lapTimer.currentTime.ToString("f3");
+            racer.GetComponent<Racer>().splitTimeText.text = "CHECK POINT TIME: " + lapTimer.currentTime.ToString("f3");
         }
 	}
 	
-    // Update high scores
+    /// <summary>
+    /// Updates the scoreboard online.
+    /// </summary>
     private void UpdateScoreboard()
     {
         // Request data
@@ -204,7 +241,15 @@ public class LapController : MonoBehaviour
         leaderboardText.text = "Top Times:" + results[ 0 ].Name + "  " + results[ 0 ].Time;
     }
 
-    // Generate MD5 code
+    /// <summary>
+    /// Generates an MD5 hash.
+    /// </summary>
+    /// <returns>
+    /// The hash.
+    /// </returns>
+    /// <param name='strToEncrypt'>
+    /// The string to encrypt.
+    /// </param>
     public string Md5Sum(string strToEncrypt)
     {
         //System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();

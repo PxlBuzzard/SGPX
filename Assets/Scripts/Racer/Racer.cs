@@ -7,7 +7,7 @@ using UnityEngine;
 /// <author>Daniel Jost</author>
 public class Racer : MonoBehaviour
 {
-	#region Class Variables
+	#region Variables
 	public bool useStaticUI;
     public float acceleration;
     public float rotateSpeed;
@@ -23,13 +23,15 @@ public class Racer : MonoBehaviour
 	public bool useVCR;
 	public InputVCR vcr;
     public TextMesh splitTimeText;
-	public Vector3 spawnPosition;
 	public ParticleSystem speedLines;
 	public RacerUI ui;
+	[HideInInspector]
+	public Vector3 spawnPosition;
     private float currentTurn;
     private RaycastHit[] raycastHits;
 	private Quaternion spawnRotation;
 	private bool isBoosting = false;
+	private bool isPaused = false;
 	#endregion
 
     /// <summary>
@@ -38,26 +40,18 @@ public class Racer : MonoBehaviour
     void Start()
     {
 		//set gravity on ship
-        Physics.gravity = new Vector3( 0, -250, 0 );
+        //Physics.gravity = new Vector3( 0, -250, 0 );
 		
-		//disable collision with ghost replay
-		if ( name == "Ship1" )
+		//disable collision with the ghost
+		if( tag == "Player" )
        		Physics.IgnoreCollision( model.collider, GameObject.Find( "Ship1Ghost" ).GetComponent<Racer>().model.collider );
 		
 		//initialize raycasts
         raycastHits = new RaycastHit[ raycasters.Length ];
 		
 		//set up UI hooks
-		if ( ui )
+		if( ui )
 			ui.Initialize( useStaticUI );
-
-		//set spawn location on the track (TEMPORARY, ONLY WORKS FOR ONE TRACK)
-	    //spawnPosition = new Vector3( 0.0f, -119.242f, 363.0434f );
-		//spawnRotation = new Quaternion( 0.0f, 180f, 0.0f, 1.0f );
-		
-		//SHIV TRACK SPAWN
-		spawnPosition = new Vector3(-179.4068f, 34.04115f, -44.46555f);
-		spawnRotation = new Quaternion(0.0f, 243f, 0.0f, 1.0f);
 		
 		//make the ship update its physics like hella
         rigidbody.solverIterationCount = 20;
@@ -68,6 +62,24 @@ public class Racer : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+		//Check for lap reset button
+		if( vcr.GetButtonDown( "Reset" ) )
+			ResetLap();
+		else if( Input.GetButtonDown( "Reset" ) )
+			ResetLap();
+		
+		//Check for pause button, doesn't actually work yet
+		if( vcr.GetButtonDown( "Reset" ) )
+		{
+			Time.timeScale = 0;
+			isPaused = true;
+		}
+		else if( Input.GetButtonDown( "Reset" ) && isPaused )
+		{
+			Time.timeScale = 1;
+			isPaused = false;
+		}
+		
 		//Boost
 		if( useVCR )
 			isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
@@ -87,13 +99,14 @@ public class Racer : MonoBehaviour
         //Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + "  /  " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
 		
 		//hover off the ground
-        if( raycastHits[ 0 ].distance < 1.5f )
-            rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 0 ].distance, 0.0f );
-		if( raycastHits[ 1 ].distance < 1.5f )
-            rigidbody.AddForce( 0.0f, 100.0f - raycastHits[ 1 ].distance, 0.0f );
+        if( raycastHits[ 0 ].distance < 2f && raycastHits[ 1 ].distance < 2f )
+            rigidbody.AddRelativeForce( 0.0f, 150.0f, 0.0f );
+		//magnetize back to the track
+		else if( raycastHits[ 0 ].distance > 2.5f && raycastHits[ 1 ].distance < 2.5f )
+            rigidbody.AddRelativeForce( 0.0f, -550.0f * raycastHits[ 0 ].distance, 0.0f );
 
         // If on the track
-        if( raycastHits[ 0 ].distance < 1.5f || raycastHits[ 1 ].distance < 1.5f )
+        if( raycastHits[ 0 ].distance < 5f || raycastHits[ 1 ].distance < 5f )
         {
             // If the front and back of the ship are not balanced, rotate to balance them
             if( raycastHits[ 0 ].distance != raycastHits[ 1 ].distance )
@@ -191,9 +204,24 @@ public class Racer : MonoBehaviour
 	}
 	
 	/// <summary>
+	/// Sets the spawn for the ship.
+	/// </summary>
+	/// <param name='spawnPosition'>
+	/// Spawn position.
+	/// </param>
+	/// <param name='spawnRotation'>
+	/// Spawn rotation.
+	/// </param>
+	public void SetSpawn( Vector3 spawnPosition, Quaternion spawnRotation )
+	{
+		this.spawnPosition = spawnPosition;
+		this.spawnRotation = spawnRotation;
+	}
+	
+	/// <summary>
 	/// Resets the lap.
 	/// </summary>
-	void ResetLap()
+	public void ResetLap()
 	{
 		//reset position/rotation
 		transform.position = spawnPosition;
@@ -205,5 +233,8 @@ public class Racer : MonoBehaviour
 		
 		//reset the lap timer
 		GameObject.Find( "FinishLine" ).GetComponent<Timer>().Reset();
+		
+		//kill the ghost
+		GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().replayFinished();
 	}
 }

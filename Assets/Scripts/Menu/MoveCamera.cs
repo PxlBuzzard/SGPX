@@ -3,7 +3,6 @@ using System.Collections;
 
 public class MoveCamera : MonoBehaviour
 {
-
     public GameObject creditPosition;
     public GameObject mainPosition;
     public GameObject inputPosition;

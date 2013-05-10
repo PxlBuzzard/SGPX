@@ -27,8 +27,8 @@ public class CheckPoints : MonoBehaviour
 		//checking to see when the ship crosses the finish line
         if( collider.transform.parent.tag == "Player" )
 		{
+			lapController.checkpointCounter++;
             lapController.Checkpoint();
-		}
-		
+		} 
 	}
 }

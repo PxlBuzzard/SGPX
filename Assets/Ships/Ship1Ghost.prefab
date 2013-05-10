@@ -138,7 +138,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   m_Layer: 0
-  m_Name: Ship_v3
+  m_Name: Phoenix_ship_ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 0, y: -9999, z: -34.9255066}
+  m_LocalPosition: {x: 0, y: -9999, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 400010}
@@ -292,7 +292,9 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 8f800da249cc60742b421c2fef72362c, type: 2}
+  - {fileID: 2100000, guid: af186c25f35eb794dac7e321efc378e7, type: 2}
+  - {fileID: 2100000, guid: 505b999928cea4d4ab775ae20b890fd2, type: 2}
+  - {fileID: 2100000, guid: dff4e6b74ea12a549acfea9941216b95, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -304,7 +306,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100016}
-  m_Mesh: {fileID: 4300000, guid: 86e29dc4c97af544cb8c3d2bd3bac49b, type: 3}
+  m_Mesh: {fileID: 4300000, guid: a885a2494e23a564e90134043d56b942, type: 3}
 --- !u!54 &5400000
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -315,10 +317,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: .0500000007
   m_AngularDrag: 10
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -359,9 +361,10 @@ MonoBehaviour:
   - {fileID: 100002}
   useVCR: 1
   vcr: {fileID: 11400004}
-  spawnPosition: {x: 0, y: 0, z: 0}
+  splitTimeText: {fileID: 0}
   speedLines: {fileID: 19800002}
-  lapTime: {fileID: 0}
+  ui: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -581,7 +584,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 2063583744
+        rgba: 268421632
       minMaxState: 0
     startSize:
       scalar: .5

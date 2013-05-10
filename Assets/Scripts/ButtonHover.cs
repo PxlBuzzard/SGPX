@@ -113,7 +113,7 @@ public class ButtonHover : MonoBehaviour
 			// back button moves camera back to main menu
 			if (backBtn)
 			{
-				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.main);
+				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.Main);
 				mainMenu = true;
 				backBtn = false;
 				playGame = false;
@@ -138,7 +138,7 @@ public class ButtonHover : MonoBehaviour
 			// goes to the credits 
 			else if(index == 1)
 			{
-				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.credits);
+				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.Credits);
 				mainMenu = false; 
 				backBtn = true;
 				playGame = false;
@@ -147,7 +147,7 @@ public class ButtonHover : MonoBehaviour
 			// goes to player input page
 			else if(index == 0)
 			{
-				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.input);
+				GameObject.Find("Main Camera").GetComponent<MoveCamera>().ChangeCamera(MoveCamera.CamPositions.Input);
 				//GameObject.Find ("GUI Text").GetComponent<UserInputName>().OnGUI(showGUI);
 				GUI.FocusControl("playerName");
 				textField.enabled=true;

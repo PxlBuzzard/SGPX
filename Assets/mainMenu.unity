@@ -662,6 +662,7 @@ MonoBehaviour:
   creditPosition: {fileID: 742886136}
   mainPosition: {fileID: 1786971989}
   inputPosition: {fileID: 1585594598}
+  transitionTime: 1.5
 --- !u!1 &353907487
 GameObject:
   m_ObjectHideFlags: 0

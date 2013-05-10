@@ -1,3 +1,4 @@
+#region Using Statements
 using UnityEngine;
 using System;
 using System.IO;
@@ -5,8 +6,8 @@ using System.Net;
 using System.Text;
 using System.Collections;
 using System.Security.Cryptography;
-
 using LitJson;
+#endregion
 
 /// <summary>
 /// A script to handle ghosts, leaderboards, and checkpoints.
@@ -16,10 +17,15 @@ using LitJson;
 /// <author>Colden Cullen</author>
 public class LapController : MonoBehaviour 
 {
+	#region Constants
     private const string SECRET_KEY = "mySecretKey";
     private const string GET_SCORES_URL = "http://sgpx.coldencullen.com/php/getscores.php?";
     private const string ADD_SCORE_URL = "http://sgpx.coldencullen.com/php/addscore.php?";
-
+	private const string FTP_USER = "sgpx";
+	private const string FTP_PASSWORD = "superracr";
+	#endregion
+	
+	#region Variables
     public bool uploadTimes;
     public Timer lapTimer;
     public Timer delayTimer;
@@ -34,6 +40,7 @@ public class LapController : MonoBehaviour
     private WWW upload;
     private bool waitingForUpload = false;
 	private int trackID;
+	#endregion
 
 	/// <summary>
 	/// Start this instance.
@@ -41,6 +48,8 @@ public class LapController : MonoBehaviour
 	void Start() 
     {
 		fastestLapText.text = "";
+		
+		//get the track ID from the parent Track script
 		trackID = transform.parent.GetComponent<Track>().trackID;
 	}
 	
@@ -84,7 +93,8 @@ public class LapController : MonoBehaviour
         request.Method = WebRequestMethods.Ftp.UploadFile;
 
         // Login
-        request.Credentials = new NetworkCredential( "sgpx", "superracr" );
+		//NOTE: Hardcoding our login credentials here is not a smart idea.
+        request.Credentials = new NetworkCredential( FTP_USER, FTP_PASSWORD );
 
         // Upload to server
         byte[] fileContents = Encoding.UTF8.GetBytes( fastestRecording.ToString() );
@@ -108,6 +118,7 @@ public class LapController : MonoBehaviour
 		//checking to see when the ship crosses the finish line
         if( collider.transform.parent.tag == "Player" && transform.InverseTransformDirection( collider.attachedRigidbody.velocity ).z < 0 )
 		{
+			//start the lap timer if it hasn't started
 			if( lapTimer.currentTime == 0.0f )
 			{
 				lapTimer.LapTimer();
@@ -126,7 +137,7 @@ public class LapController : MonoBehaviour
 			else
 			{
                 //check to see if they passed through all 3 checkpoints
-                if (checkpointCounter == 3)
+                if (checkpointCounter == checkpoints.Length)
                 {
                     checkpointCounter = 0;
 
@@ -191,6 +202,9 @@ public class LapController : MonoBehaviour
 		}		
     }
 	
+	/// <summary>
+	/// Fires when the racer crosses a checkpoint.
+	/// </summary>
 	public void Checkpoint ()
 	{
 		//have a list of checkpoints, and check to see if you have passed them in numerical order	
@@ -201,7 +215,9 @@ public class LapController : MonoBehaviour
         }
 	}
 	
-    // Update high scores
+    /// <summary>
+    /// Updates the scoreboard online.
+    /// </summary>
     private void UpdateScoreboard()
     {
         // Request data
@@ -225,7 +241,15 @@ public class LapController : MonoBehaviour
         leaderboardText.text = "Top Times:" + results[ 0 ].Name + "  " + results[ 0 ].Time;
     }
 
-    // Generate MD5 code
+    /// <summary>
+    /// Generates an MD5 hash.
+    /// </summary>
+    /// <returns>
+    /// The hash.
+    /// </returns>
+    /// <param name='strToEncrypt'>
+    /// The string to encrypt.
+    /// </param>
     public string Md5Sum(string strToEncrypt)
     {
         //System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();

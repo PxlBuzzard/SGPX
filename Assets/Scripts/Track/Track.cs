@@ -9,6 +9,19 @@ public class Track : MonoBehaviour
 {
 	public string trackName;
 	public int trackID;
-	public Vector3 spawnLocation;
+	public GameObject racer;
+	public Vector3 spawnPosition;
 	public Quaternion spawnRotation;
+	
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
+	void Start()
+	{
+		//set the spawn position
+		racer.GetComponent<Racer>().SetSpawn( spawnPosition, spawnRotation );
+		
+		//reset the racer
+		racer.GetComponent<Racer>().ResetLap();
+	}
 }

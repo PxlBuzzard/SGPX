@@ -138,7 +138,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   m_Layer: 0
-  m_Name: Phoenix_ship
+  m_Name: Phoenix_ship_ghost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 0, y: -9999, z: 363.043396}
+  m_LocalPosition: {x: 0, y: -9999, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 400010}
@@ -292,7 +292,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 005f15b54609f2d4caa59bd4091e41e3, type: 2}
+  - {fileID: 2100000, guid: af186c25f35eb794dac7e321efc378e7, type: 2}
   - {fileID: 2100000, guid: 505b999928cea4d4ab775ae20b890fd2, type: 2}
   - {fileID: 2100000, guid: dff4e6b74ea12a549acfea9941216b95, type: 2}
   m_SubsetIndices: 
@@ -317,10 +317,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: .0500000007
   m_AngularDrag: 10
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &11400000
 MonoBehaviour:
@@ -362,9 +362,9 @@ MonoBehaviour:
   useVCR: 1
   vcr: {fileID: 11400004}
   splitTimeText: {fileID: 0}
-  spawnPosition: {x: 0, y: 0, z: 0}
   speedLines: {fileID: 19800002}
   ui: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

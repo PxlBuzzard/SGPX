@@ -1660,6 +1660,10 @@ MonoBehaviour:
   racer: {fileID: 1729211427}
   fastestLapText: {fileID: 1512845918}
   leaderboardText: {fileID: 1674204855}
+  checkpoints:
+  - {fileID: 1586698374}
+  - {fileID: 176076585}
+  - {fileID: 1792091514}
   fastestTime: 0
 --- !u!114 &297496503
 MonoBehaviour:
@@ -2129,6 +2133,7 @@ MonoBehaviour:
   racer: {fileID: 1729211427}
   fastestLapText: {fileID: 1512845918}
   leaderboardText: {fileID: 1674204855}
+  checkpoints: []
   fastestTime: 0
 --- !u!65 &525971012
 BoxCollider:
@@ -3725,6 +3730,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400002, guid: ba6be1c8eda030e439b8b0c751cb783a, type: 2}
+      propertyPath: checkpoints.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 400016, guid: ba6be1c8eda030e439b8b0c751cb783a, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3781,6 +3790,22 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100024, guid: ba6be1c8eda030e439b8b0c751cb783a, type: 2}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: ba6be1c8eda030e439b8b0c751cb783a, type: 2}
+      propertyPath: checkpoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1586698374}
+    - target: {fileID: 11400002, guid: ba6be1c8eda030e439b8b0c751cb783a, type: 2}
+      propertyPath: checkpoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 176076585}
+    - target: {fileID: 11400002, guid: ba6be1c8eda030e439b8b0c751cb783a, type: 2}
+      propertyPath: checkpoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 1792091514}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba6be1c8eda030e439b8b0c751cb783a, type: 2}
   m_RootGameObject: {fileID: 1045607349}

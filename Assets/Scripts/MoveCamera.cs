@@ -7,6 +7,8 @@ public class MoveCamera : MonoBehaviour {
 	public GameObject mainPosition;
 	public GameObject inputPosition;
 	
+	public float moveSpeed;
+	
 	public enum CamPositions
 	{
 		credits,
@@ -28,6 +30,7 @@ public class MoveCamera : MonoBehaviour {
 	{
 		if(newPos == CamPositions.credits)
 		{
+			//this.transform.position=Vector3.Lerp(mainPosition.transform.position,creditPosition.transform.position,Time.deltaTime*moveSpeed);
 			this.transform.position=creditPosition.transform.position;
 			this.transform.rotation=creditPosition.transform.rotation;
 		}

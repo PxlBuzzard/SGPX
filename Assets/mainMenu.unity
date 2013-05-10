@@ -486,7 +486,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 215164819}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 403.597839, y: -21.0873566, z: -216.836792}
+  m_LocalPosition: {x: 402.207123, y: -25.7416916, z: -216.836792}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1157,7 +1157,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1201235840}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 442.62793, y: 29.1345139, z: -216.884583}
+  m_LocalPosition: {x: 441.994934, y: 22.2136383, z: -216.884583}
   m_LocalScale: {x: 1.26414216, y: 1.26414216, z: 1.26414216}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1504,7 +1504,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1640442950}
-  m_Text: ( EG. KATIE P )
+  m_Text: ( EG. KATIE P. )
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
@@ -1522,7 +1522,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1640442950}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
-  m_LocalPosition: {x: 410.942871, y: 16.5438461, z: -216.884583}
+  m_LocalPosition: {x: 410.309875, y: 9.62297153, z: -216.884583}
   m_LocalScale: {x: .487779349, y: .487779349, z: .487779349}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1589,7 +1589,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1766457808}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 405.159027, y: -24.9562683, z: -214.642334}
+  m_LocalPosition: {x: 403.768311, y: -29.6106033, z: -214.642334}
   m_LocalScale: {x: 2.45007324, y: .0726807714, z: 2.44845724}
   m_Children: []
   m_Father: {fileID: 0}

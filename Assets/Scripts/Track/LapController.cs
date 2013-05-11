@@ -71,7 +71,7 @@ public class LapController : MonoBehaviour
 
                 if( !String.IsNullOrEmpty( upload.text ) )
                 {
-                    UploadGhost();
+                    StartCoroutine( UploadGhost() );
                 }
             }
         }
@@ -86,7 +86,7 @@ public class LapController : MonoBehaviour
 	/// <summary>
 	/// Uploads the ghost replay JSON file to a server.
 	/// </summary>
-    void UploadGhost()
+    IEnumerator UploadGhost()
     {
         // Get object used to communicate with server
         FtpWebRequest request = (FtpWebRequest)WebRequest.Create( "ftp://buckeye.dreamhost.com/sgpx.coldencullen.com/ghosts/" + upload.text );
@@ -105,6 +105,8 @@ public class LapController : MonoBehaviour
         requestStream.Close();
 
         Debug.Log( ( request.GetResponse() as FtpWebResponse ).StatusDescription );
+
+        yield return null;
     }
 	
 	/// <summary>

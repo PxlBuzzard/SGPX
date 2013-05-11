@@ -6,6 +6,7 @@ public class MoveCamera : MonoBehaviour
     public GameObject creditPosition;
     public GameObject mainPosition;
     public GameObject inputPosition;
+    public UserInputName textField;
     public float transitionTime;
 
     private GameObject targetPosition;
@@ -35,7 +36,11 @@ public class MoveCamera : MonoBehaviour
             transform.rotation = Quaternion.Slerp( transform.rotation, targetPosition.transform.rotation, ( Time.time - startTime ) / transitionTime );
 
             if( ( Time.time - startTime ) / transitionTime >= 1.0f )
+            {
                 currentState = newState;
+
+                textField.enabled = currentState == CamPositions.Input;
+            }
         }
     }
 

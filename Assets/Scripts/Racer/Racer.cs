@@ -62,8 +62,6 @@ public class Racer : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
-		Debug.Log( transform.eulerAngles );
-		
 		//Check for lap reset button
 		if( vcr.GetButtonDown( "Reset" ) )
 			ResetLap();
@@ -76,17 +74,17 @@ public class Racer : MonoBehaviour
 			Time.timeScale = 0;
 			isPaused = true;
 		}
-		else if( Input.GetButtonDown( "Reset" ) && isPaused )
+		else if( vcr.GetButtonDown( "Reset" ) && isPaused )
 		{
 			Time.timeScale = 1;
 			isPaused = false;
 		}
 		
 		//Boost
-		if( useVCR )
-			isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
-		else
-        	isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
+		//if( useVCR )
+		//	isBoosting = vcr.GetAxis( "Boost" ) > 0.0f;
+		//else
+        //	isBoosting = Input.GetAxis( "Boost" ) > 0.0f;
 
         // Rotate to match plane
         // 0: Front
@@ -109,14 +107,25 @@ public class Racer : MonoBehaviour
             rigidbody.AddRelativeForce( 0.0f, 150.0f, 0.0f );
 		}
 		//magnetize down onto to the track if you get too far off
-		else if( raycastHits[ 0 ].distance > 2.5f && raycastHits[ 1 ].distance < 2.5f )
-		{
-            rigidbody.AddRelativeForce( 0.0f, Mathf.Min(-550.0f * raycastHits[ 0 ].distance, 5000f), 0.0f );
-        	Physics.gravity = new Vector3( 0, Mathf.Min(-200 * raycastHits[ 0 ].distance, 5000f), 0 );
-		}
+		//else if( raycastHits[ 0 ].distance > 2.5f && raycastHits[ 1 ].distance < 2.5f )
+		//{
+            //rigidbody.AddRelativeForce( 0.0f, Mathf.Min(-150.0f * raycastHits[ 0 ].distance, 5000f), 0.0f );
+        	//Physics.gravity = new Vector3( 0, Mathf.Min(-200 * raycastHits[ 0 ].distance, 5000f), 0 );
+		//}
+		
+		//push directly downwards when rotating onto a berm
+		//if( transform.eulerAngles.z < 180.0f && transform.eulerAngles.z > 5.0f )
+		//	rigidbody.AddForce( new Vector3( 0f, -100.0f * transform.eulerAngles.z, 0.0f ) );
+		//else if( transform.eulerAngles.z > 180.0f && transform.eulerAngles.z < 355.0f )
+		//	rigidbody.AddForce( new Vector3( 0f, -100.0f * ( 360.0f - transform.eulerAngles.z ), 0.0f ) );
+		
+		//push forwards when going up a hill
+		//if( transform.eulerAngles.x > 180.0f )
+			//rigidbody.AddForce( new Vector3( 0.0f, 0.0f, 100.0f * ( 360f - transform.eulerAngles.x ) ) );
 
         // If on the track
-        if( raycastHits[ 0 ].distance < 5f || raycastHits[ 1 ].distance < 5f )
+        //if( raycastHits[ 0 ].distance < 5f || raycastHits[ 1 ].distance < 5f )
+		if( raycastHits[ 0 ].distance < 1.5f || raycastHits[ 1 ].distance < 1.5f )
         {
             // If the front and back of the ship are not balanced, rotate to balance them
             if( raycastHits[ 0 ].distance != raycastHits[ 1 ].distance )

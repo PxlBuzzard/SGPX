@@ -247,7 +247,7 @@ public class InputVCR : MonoBehaviour
 			int lastFrame = currentFrame;
 			currentFrame = currentRecording.GetClosestFrame ( playbackTime );
 			
-			if ( currentFrame > currentRecording.totalFrames )
+			if ( currentFrame >= currentRecording.totalFrames )
 			{
 				// end of recording
 				if ( finishedPlayback != null )

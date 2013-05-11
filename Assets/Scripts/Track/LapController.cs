@@ -59,8 +59,8 @@ public class LapController : MonoBehaviour
 	void Update()
 	{
 		//update the current time of the lap
-		if( racer.GetComponent<RacerUI>().lapTime )
-			racer.GetComponent<RacerUI>().lapTime.text = lapTimer.currentTime.ToString("f3");
+		if( racer.tag == "Player" )
+			racer.GetComponent<RacerUI>().lapTime.text = lapTimer.currentTime.ToString( "f3" );
 		
 		//upload scores to the server
         if( fastestRecording != null && upload != null && waitingForUpload )
@@ -164,7 +164,7 @@ public class LapController : MonoBehaviour
                     //string hash = Md5Sum( playerName + lapTime + SECRET_KEY );
                     string hash = SECRET_KEY;
 
-                    if (uploadTimes)
+                    if (uploadTimes && UserIDController.Instance.userID > 0)
                     {
                         upload = new WWW(
                             ADD_SCORE_URL +

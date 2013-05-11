@@ -13,6 +13,26 @@ public class GhostRacer : MonoBehaviour
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
+	void Start()
+	{
+		//grab the live and ghost racer scripts
+		Racer racerScript = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Racer>();
+		Racer ghostScript = GetComponent<Racer>();
+		
+		//assign the live racer variables to the ghost
+		ghostScript.acceleration = racerScript.acceleration;
+		ghostScript.boostAccelerationMultiplier = racerScript.boostAccelerationMultiplier;
+		ghostScript.boostMaxSpeed = racerScript.boostMaxSpeed;
+		ghostScript.maxAngularVelocity = racerScript.maxAngularVelocity;
+		ghostScript.maxRotation = racerScript.maxRotation;
+		ghostScript.maxSpeed = racerScript.maxSpeed;
+		ghostScript.rotateSpeed = racerScript.rotateSpeed;
+		ghostScript.turnAcceleration = racerScript.turnAcceleration;
+	}
+	
+	/// <summary>
+	/// Starts the replay.
+	/// </summary>
 	public void StartReplay () 
 	{
 		//enable scripts

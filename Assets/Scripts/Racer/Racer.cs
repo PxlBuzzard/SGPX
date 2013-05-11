@@ -234,7 +234,10 @@ public class Racer : MonoBehaviour
 		//reset the lap timer
 		GameObject.Find( "FinishLine" ).GetComponent<Timer>().Reset();
 		
-		//kill the ghost
-		GameObject.Find( "Ship1Ghost" ).GetComponent<GhostRacer>().replayFinished();
+		//hide the ghost replay(s)
+		foreach( GameObject gr in GameObject.FindGameObjectsWithTag( "ReplayGhost" ))
+		{
+			gr.GetComponent<GhostRacer>().replayFinished();	
+		}
 	}
 }

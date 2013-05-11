@@ -344,14 +344,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6c26e06de79d4c4e8c492973b439ccb, type: 3}
   m_Name: 
   useStaticUI: 0
-  acceleration: 2000
-  rotateSpeed: 200
-  maxSpeed: 250
-  boostAccelerationMultiplier: 5
-  boostMaxSpeed: 350
-  maxAngularVelocity: 1.5
-  maxRotation: 30
-  turnAcceleration: 7
+  acceleration: 0
+  rotateSpeed: 0
+  maxSpeed: 0
+  boostAccelerationMultiplier: 0
+  boostMaxSpeed: 0
+  maxAngularVelocity: 0
+  maxRotation: 0
+  turnAcceleration: 0
   model: {fileID: 100010}
   engineParticles: {fileID: 19800000}
   raycasters:

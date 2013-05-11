@@ -6,7 +6,7 @@ public class UserInputName : MonoBehaviour
 	//constants
 	private const string SECRET_KEY = "mySecretKey";
 	private const string GET_USER_URL = "http://sgpx.coldencullen.com/php/getuser.php?";
-	string hash = SECRET_KEY;
+	//string hash = SECRET_KEY;
 	
 	// variables
 	private string playerName = "";

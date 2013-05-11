@@ -1,23 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
-public class CheckPoints : MonoBehaviour 
+/// <summary>
+/// A script to manage a checkpoint.
+/// </summary>
+/// <author>Pete O'Neal</author>
+public class Checkpoint : MonoBehaviour 
 {
 	public LapController lapController;
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-
-	}
 	
 	/// <summary>
-	/// Fires when the ship crosses the finish line.
+	/// Fires when the ship crosses the checkpoint.
 	/// </summary>
 	/// <param name='collider'>
 	/// The ship.

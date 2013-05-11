@@ -40,6 +40,7 @@ public class LapController : MonoBehaviour
     private WWW upload;
     private bool waitingForUpload = false;
 	private int trackID;
+	private TextMesh lapTime;
 	#endregion
 
 	/// <summary>
@@ -48,6 +49,8 @@ public class LapController : MonoBehaviour
 	void Start() 
     {
 		fastestLapText.text = "";
+		
+		lapTime = GetComponentInChildren<TextMesh>();
 		
 		//get the track ID from the parent Track script
 		trackID = transform.parent.GetComponent<Track>().trackID;
@@ -61,6 +64,10 @@ public class LapController : MonoBehaviour
 		//update the current time of the lap
 		if( racer.tag == "Player" )
 			racer.GetComponent<RacerUI>().lapTime.text = lapTimer.currentTime.ToString( "f3" );
+		
+		//update the lap time on the track (if it's a thing)
+		if ( lapTime )
+			lapTime.text = lapTimer.currentTime.ToString( "f3" );
 		
 		//upload scores to the server
         if( fastestRecording != null && upload != null && waitingForUpload )

@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Handles the camera for the ship.
+/// </summary>
+/// <author>Colden Cullen</author>
 public class RacerCamera : MonoBehaviour
 {
     public Racer target;
@@ -11,19 +15,18 @@ public class RacerCamera : MonoBehaviour
     private Vector3 initialPosition;
     private float prevVelocity;
 
-    // Use this for initialization
+    /// <summary>
+    /// Start this instance.
+    /// </summary>
     void Start()
     {
         initialRotation = transform.localEulerAngles;
         initialPosition = transform.localPosition;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+	
+	/// <summary>
+	/// Updates on a fixed interval.
+	/// </summary>
     void FixedUpdate()
     {
         // Rotate camera

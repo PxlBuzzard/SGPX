@@ -35,7 +35,7 @@ public class Racer : MonoBehaviour
 	#endregion
 
     /// <summary>
-    /// Constructor.
+    /// Start this instance.
     /// </summary>
     void Start()
     {
@@ -103,7 +103,7 @@ public class Racer : MonoBehaviour
             rigidbody.AddRelativeForce( 0.0f, 150.0f, 0.0f );
 		//magnetize back to the track
 		else if( raycastHits[ 0 ].distance > 2.5f && raycastHits[ 1 ].distance < 2.5f )
-            rigidbody.AddRelativeForce( 0.0f, -550.0f * raycastHits[ 0 ].distance, 0.0f );
+            rigidbody.AddRelativeForce( 0.0f, Mathf.Min(-550.0f * raycastHits[ 0 ].distance, 5000f), 0.0f );
 
         // If on the track
         if( raycastHits[ 0 ].distance < 5f || raycastHits[ 1 ].distance < 5f )

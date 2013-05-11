@@ -11,7 +11,7 @@ public class Track : MonoBehaviour
 	public int trackID;
 	public GameObject racer;
 	public Vector3 spawnPosition;
-	public Quaternion spawnRotation;
+	public Vector3 spawnRotation;
 	
 	/// <summary>
 	/// Start this instance.

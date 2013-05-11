@@ -29,7 +29,7 @@ public class Racer : MonoBehaviour
 	public Vector3 spawnPosition;
     private float currentTurn;
     private RaycastHit[] raycastHits;
-	private Quaternion spawnRotation;
+	private Vector3 spawnRotation;
 	private bool isBoosting = false;
 	private bool isPaused = false;
 	#endregion
@@ -40,7 +40,7 @@ public class Racer : MonoBehaviour
     void Start()
     {
 		//set gravity on ship
-        //Physics.gravity = new Vector3( 0, -250, 0 );
+        Physics.gravity = new Vector3( 0, -450, 0 );
 		
 		//disable collision with the ghost
 		if( tag == "Player" )
@@ -62,6 +62,8 @@ public class Racer : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
+		Debug.Log( transform.eulerAngles );
+		
 		//Check for lap reset button
 		if( vcr.GetButtonDown( "Reset" ) )
 			ResetLap();
@@ -94,16 +96,24 @@ public class Racer : MonoBehaviour
 		
         // Do raycasts
         for( int ii = 0; ii < raycasters.Length; ++ii )
+		{
             Physics.Raycast( raycasters[ ii ].transform.position, -raycasters[ ii ].transform.up, out raycastHits[ ii ] );
-
+		}
+		
+		//print out the raycast distances
         //Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + "  /  " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
 		
 		//hover off the ground
         if( raycastHits[ 0 ].distance < 2f && raycastHits[ 1 ].distance < 2f )
+		{
             rigidbody.AddRelativeForce( 0.0f, 150.0f, 0.0f );
-		//magnetize back to the track
+		}
+		//magnetize down onto to the track if you get too far off
 		else if( raycastHits[ 0 ].distance > 2.5f && raycastHits[ 1 ].distance < 2.5f )
+		{
             rigidbody.AddRelativeForce( 0.0f, Mathf.Min(-550.0f * raycastHits[ 0 ].distance, 5000f), 0.0f );
+        	Physics.gravity = new Vector3( 0, Mathf.Min(-200 * raycastHits[ 0 ].distance, 5000f), 0 );
+		}
 
         // If on the track
         if( raycastHits[ 0 ].distance < 5f || raycastHits[ 1 ].distance < 5f )
@@ -212,7 +222,7 @@ public class Racer : MonoBehaviour
 	/// <param name='spawnRotation'>
 	/// Spawn rotation.
 	/// </param>
-	public void SetSpawn( Vector3 spawnPosition, Quaternion spawnRotation )
+	public void SetSpawn( Vector3 spawnPosition, Vector3 spawnRotation )
 	{
 		this.spawnPosition = spawnPosition;
 		this.spawnRotation = spawnRotation;
@@ -225,7 +235,7 @@ public class Racer : MonoBehaviour
 	{
 		//reset position/rotation
 		transform.position = spawnPosition;
-		transform.rotation = spawnRotation;
+		transform.eulerAngles = spawnRotation;
 		
 		//reset velocities
 		rigidbody.angularVelocity = Vector3.zero;

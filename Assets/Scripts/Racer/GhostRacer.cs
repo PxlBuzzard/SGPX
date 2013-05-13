@@ -28,6 +28,7 @@ public class GhostRacer : MonoBehaviour
 		ghostScript.maxSpeed = racerScript.maxSpeed;
 		ghostScript.rotateSpeed = racerScript.rotateSpeed;
 		ghostScript.turnAcceleration = racerScript.turnAcceleration;
+		rigidbody.constraints = GameObject.FindGameObjectWithTag( "Player" ).GetComponent<Rigidbody>().constraints;
 	}
 	
 	/// <summary>

@@ -31,7 +31,7 @@ public class Racer : MonoBehaviour
     private RaycastHit[] raycastHits;
 	private Vector3 spawnRotation;
 	private bool isBoosting = false;
-	private bool isPaused = false;
+	//private bool isPaused = false;
 	#endregion
 
     /// <summary>
@@ -40,7 +40,7 @@ public class Racer : MonoBehaviour
     void Start()
     {
 		//set gravity on ship
-        Physics.gravity = new Vector3( 0, -450, 0 );
+        Physics.gravity = new Vector3( 0, -450.0f, 0 );
 		
 		//disable collision with the ghost
 		if( tag == "Player" )
@@ -68,6 +68,7 @@ public class Racer : MonoBehaviour
 		else if( Input.GetButtonDown( "Reset" ) )
 			ResetLap();
 		
+		/*
 		//Check for pause button, doesn't actually work yet
 		if( vcr.GetButtonDown( "Reset" ) )
 		{
@@ -78,7 +79,7 @@ public class Racer : MonoBehaviour
 		{
 			Time.timeScale = 1;
 			isPaused = false;
-		}
+		}*/
 		
 		//Boost
 		//if( useVCR )
@@ -101,18 +102,6 @@ public class Racer : MonoBehaviour
 		//print out the raycast distances
         //Debug.Log( raycastHits[ 0 ].distance + ", " + raycastHits[ 1 ].distance + "  /  " + raycastHits[ 2 ].distance + ", " + raycastHits[ 3 ].distance );
 		
-		//hover off the ground
-        if( raycastHits[ 0 ].distance < 2f && raycastHits[ 1 ].distance < 2f )
-		{
-            rigidbody.AddRelativeForce( 0.0f, 150.0f, 0.0f );
-		}
-		//magnetize down onto to the track if you get too far off
-		//else if( raycastHits[ 0 ].distance > 2.5f && raycastHits[ 1 ].distance < 2.5f )
-		//{
-            //rigidbody.AddRelativeForce( 0.0f, Mathf.Min(-150.0f * raycastHits[ 0 ].distance, 5000f), 0.0f );
-        	//Physics.gravity = new Vector3( 0, Mathf.Min(-200 * raycastHits[ 0 ].distance, 5000f), 0 );
-		//}
-		
 		//push directly downwards when rotating onto a berm
 		//if( transform.eulerAngles.z < 180.0f && transform.eulerAngles.z > 5.0f )
 		//	rigidbody.AddForce( new Vector3( 0f, -100.0f * transform.eulerAngles.z, 0.0f ) );
@@ -124,9 +113,11 @@ public class Racer : MonoBehaviour
 			//rigidbody.AddForce( new Vector3( 0.0f, 0.0f, 100.0f * ( 360f - transform.eulerAngles.x ) ) );
 
         // If on the track
-        //if( raycastHits[ 0 ].distance < 5f || raycastHits[ 1 ].distance < 5f )
 		if( raycastHits[ 0 ].distance < 1.5f || raycastHits[ 1 ].distance < 1.5f )
         {
+			//hover off the ground
+			rigidbody.AddRelativeForce( 0.0f, 150.0f, 0.0f );
+			
             // If the front and back of the ship are not balanced, rotate to balance them
             if( raycastHits[ 0 ].distance != raycastHits[ 1 ].distance )
                 transform.Rotate(
@@ -140,9 +131,13 @@ public class Racer : MonoBehaviour
                     Mathf.Atan( ( raycastHits[ 2 ].distance - raycastHits[ 3 ].distance ) / ( raycasters[ 2 ].transform.localPosition.z - raycasters[ 3 ].transform.localPosition.z ) ) );
         }
 		//if going over a jump or off the track, turn the noise downwards
-        else
+        else if( raycastHits[ 0 ].distance > 2f && raycastHits[ 1 ].distance > 2f )
         {
             transform.Rotate( rigidbody.mass / 5.0f, 0.0f, 0.0f );
+			
+			//magnetize down onto to the track if you get too far off
+			rigidbody.AddRelativeForce( 0.0f, Mathf.Min(-150.0f * raycastHits[ 0 ].distance, 5000f), 0.0f );
+        	Physics.gravity = new Vector3( 0, Mathf.Min(-150.0f * raycastHits[ 0 ].distance, 5000f), 0 );
         }
         
         // Lean
@@ -242,6 +237,9 @@ public class Racer : MonoBehaviour
 	/// </summary>
 	public void ResetLap()
 	{
+		//reset any changes the track has made to the ship
+		GameObject.FindGameObjectWithTag( "Track" ).GetComponent<Track>().TrackRules();
+		
 		//reset position/rotation
 		transform.position = spawnPosition;
 		transform.eulerAngles = spawnRotation;

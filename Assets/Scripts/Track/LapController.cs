@@ -32,8 +32,9 @@ public class LapController : MonoBehaviour
 	public GameObject racer;
     public GUIText fastestLapText;
     public GUIText leaderboardText;
-    public int checkpointCounter = 0;
     public GameObject[] checkpoints;
+	[HideInInspector]
+    public int checkpointCounter = 0;
 	[HideInInspector]
     public float fastestTime = 0;
 	public Recording fastestRecording;

@@ -154,7 +154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100018
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,8 +387,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100020}
   m_LocalRotation: {x: -.5, y: .5, z: .5, w: .5}
-  m_LocalPosition: {x: .0285055786, y: .002426469, z: -.0198181216}
-  m_LocalScale: {x: 1, y: .000199999995, z: 1}
+  m_LocalPosition: {x: .279949248, y: .002426469, z: -.0198181216}
+  m_LocalScale: {x: 10, y: .5, z: 10}
   m_Children: []
   m_Father: {fileID: 400016}
 --- !u!4 &400022
@@ -548,7 +548,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100020}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &3300012
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -595,7 +595,7 @@ MeshCollider:
   serializedVersion: 2
   m_SmoothSphereCollisions: 0
   m_Convex: 0
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -848,11 +848,11 @@ MonoBehaviour:
   racer: {fileID: 0}
   fastestLapText: {fileID: 0}
   leaderboardText: {fileID: 0}
-  checkpointCounter: 0
   checkpoints:
   - {fileID: 100024}
   - {fileID: 100000}
   - {fileID: 100026}
+  checkpointCounter: 0
   fastestTime: 0
 --- !u!114 &11400004
 MonoBehaviour:
@@ -865,6 +865,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e1dbe42b61da346b817df7a1eb8fef, type: 3}
   m_Name: 
   lapController: {fileID: 11400002}
+  enableAllAxisRotations: 0
+  enableGravity: 0
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -889,6 +891,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e1dbe42b61da346b817df7a1eb8fef, type: 3}
   m_Name: 
   lapController: {fileID: 11400002}
+  enableAllAxisRotations: 0
+  enableGravity: 0
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -900,6 +904,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e1dbe42b61da346b817df7a1eb8fef, type: 3}
   m_Name: 
   lapController: {fileID: 11400002}
+  enableAllAxisRotations: 0
+  enableGravity: 0
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -912,9 +918,8 @@ MonoBehaviour:
   m_Name: 
   trackName: Dev Track
   trackID: 1
-  racer: {fileID: 0}
-  spawnPosition: {x: 0, y: -119.241997, z: 363.043396}
-  spawnRotation: {x: 0, y: 180, z: 0, w: 1}
+  spawnPosition: {x: -7, y: -119.199997, z: 363}
+  spawnRotation: {x: 0, y: 180, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

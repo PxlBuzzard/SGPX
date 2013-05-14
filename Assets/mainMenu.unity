@@ -161,7 +161,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 32608154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c3a5e6a848b64f49ac79cc0377c3d09, type: 3}
+  m_Script: {fileID: 11500000, guid: b9efbc9e1afbab7489214856a89b5e00, type: 3}
   m_Name: 
   levelToLoad: 
   soundhover: {fileID: 0}
@@ -498,7 +498,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 215164819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c3a5e6a848b64f49ac79cc0377c3d09, type: 3}
+  m_Script: {fileID: 11500000, guid: b9efbc9e1afbab7489214856a89b5e00, type: 3}
   m_Name: 
   levelToLoad: racer
   soundhover: {fileID: 0}
@@ -657,13 +657,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 309643217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 954aa5bf9c987584b8c03e466b7b5fd8, type: 3}
+  m_Script: {fileID: 11500000, guid: d08ae419049c66d449eb06dbd89c7637, type: 3}
   m_Name: 
   creditPosition: {fileID: 742886136}
   mainPosition: {fileID: 1786971989}
   inputPosition: {fileID: 1585594598}
   textField: {fileID: 718168138}
-  transitionTime: 1.5
+  transitionTime: .5
 --- !u!1 &353907487
 GameObject:
   m_ObjectHideFlags: 0
@@ -851,7 +851,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 718168135}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d52ef3ecef4910348879ab72e55bc592, type: 3}
+  m_Script: {fileID: 11500000, guid: 497f6984b47ca354081cc6bb8c7c1e16, type: 3}
   m_Name: 
   TextStyle:
     m_Name: 
@@ -890,8 +890,8 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     m_Padding:
-      m_Left: 0
-      m_Right: 0
+      m_Left: 5
+      m_Right: 5
       m_Top: 0
       m_Bottom: 0
     m_Overflow:
@@ -904,13 +904,13 @@ MonoBehaviour:
     m_FontStyle: 0
     m_Alignment: 0
     m_WordWrap: 0
-    m_RichText: 0
+    m_RichText: 1
     m_TextClipping: 1
     m_ImagePosition: 0
     m_ContentOffset: {x: 0, y: 0}
     m_FixedWidth: 0
     m_FixedHeight: 0
-    m_StretchWidth: 0
+    m_StretchWidth: 1
     m_StretchHeight: 0
   fontSize: 0
 --- !u!1 &742886136
@@ -1723,7 +1723,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2013432908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d22ae784e4b657445ae06048226dcde2, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ccda2234de751942ad11c113045f759, type: 3}
   m_Name: 
   buttons:
   - {fileID: 214668557}

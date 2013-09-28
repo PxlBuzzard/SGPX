@@ -262,6 +262,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a91cd6e494b24544bb9e81db81157c6, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   target: {fileID: 1729211430}
   rotationSpeed: 60
   maxRotation: 10
@@ -359,6 +360,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09e1dbe42b61da346b817df7a1eb8fef, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   lapController: {fileID: 666827235}
   enableAllAxisRotations: 0
   enableGravity: 0
@@ -423,6 +425,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09e1dbe42b61da346b817df7a1eb8fef, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   lapController: {fileID: 297496502}
   enableAllAxisRotations: 0
   enableGravity: 0
@@ -487,6 +490,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09e1dbe42b61da346b817df7a1eb8fef, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   lapController: {fileID: 666827235}
   enableAllAxisRotations: 1
   enableGravity: 0
@@ -1675,6 +1679,7 @@ ParticleSystem:
       m_Bits: 4294967295
     quality: 0
     voxelSize: .5
+    collisionMessages: 0
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}
@@ -1777,6 +1782,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ee409e5a8788f4093448baf295e2fc, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   currentTime: 0
   isFinished: 0
   isRunning: 0
@@ -1823,6 +1829,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7740c0824c59f5c449700ccfe2394564, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   uploadTimes: 1
   lapTimer: {fileID: 297496498}
   delayTimer: {fileID: 297496503}
@@ -1846,6 +1853,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ee409e5a8788f4093448baf295e2fc, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   currentTime: 0
   isFinished: 0
   isRunning: 0
@@ -1879,7 +1887,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -2262,7 +2270,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -2342,6 +2350,9 @@ TextMesh:
   m_FontStyle: 2
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 3a0a532ce9369da45aabd12a517c31f1, type: 3}
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
 --- !u!4 &491897078
 Transform:
   m_ObjectHideFlags: 0
@@ -2423,6 +2434,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ee409e5a8788f4093448baf295e2fc, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   currentTime: 0
   isFinished: 0
   isRunning: 0
@@ -2437,6 +2449,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ee409e5a8788f4093448baf295e2fc, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   currentTime: 0
   isFinished: 0
   isRunning: 0
@@ -2451,6 +2464,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7740c0824c59f5c449700ccfe2394564, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   uploadTimes: 1
   lapTimer: {fileID: 525971010}
   delayTimer: {fileID: 525971009}
@@ -3553,6 +3567,7 @@ ParticleSystem:
       m_Bits: 4294967295
     quality: 0
     voxelSize: .5
+    collisionMessages: 0
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}
@@ -3574,7 +3589,7 @@ ParticleSystemRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3667,6 +3682,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ee409e5a8788f4093448baf295e2fc, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   currentTime: 0
   isFinished: 0
   isRunning: 0
@@ -3681,6 +3697,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ee409e5a8788f4093448baf295e2fc, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   currentTime: 0
   isFinished: 0
   isRunning: 0
@@ -3695,6 +3712,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7740c0824c59f5c449700ccfe2394564, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   uploadTimes: 1
   lapTimer: {fileID: 666827234}
   delayTimer: {fileID: 666827233}
@@ -3832,7 +3850,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -3905,6 +3923,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11d12b878efa8864b8d4add9f6335538, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   trackName: Super Spiral
   trackID: 2
   spawnPosition: {x: -179.406799, y: 34.0411491, z: -44.4655495}
@@ -4219,6 +4238,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11d12b878efa8864b8d4add9f6335538, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   trackName: Dev Track
   trackID: 1
   spawnPosition: {x: -7, y: -119.199997, z: 363}
@@ -4485,7 +4505,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -4928,6 +4948,9 @@ TextMesh:
   m_FontStyle: 2
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 3a0a532ce9369da45aabd12a517c31f1, type: 3}
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
 --- !u!1 &1381913228
 GameObject:
   m_ObjectHideFlags: 0
@@ -6015,6 +6038,7 @@ ParticleSystem:
       m_Bits: 4294967295
     quality: 0
     voxelSize: .5
+    collisionMessages: 0
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}
@@ -6164,7 +6188,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -6413,6 +6437,9 @@ GUIText:
   m_Material: {fileID: 0}
   m_FontSize: 30
   m_FontStyle: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
   m_PixelCorrect: 1
   m_RichText: 1
 --- !u!4 &1512845919
@@ -6484,6 +6511,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11d12b878efa8864b8d4add9f6335538, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   trackName: The Loop
   trackID: 3
   spawnPosition: {x: 0, y: -119.241997, z: 363.043396}
@@ -6567,6 +6595,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09e1dbe42b61da346b817df7a1eb8fef, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   lapController: {fileID: 297496502}
   enableAllAxisRotations: 0
   enableGravity: 0
@@ -6736,6 +6765,9 @@ GUIText:
   m_Material: {fileID: 0}
   m_FontSize: 60
   m_FontStyle: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
   m_PixelCorrect: 1
   m_RichText: 1
 --- !u!4 &1674204856
@@ -6856,6 +6888,9 @@ TextMesh:
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 3a0a532ce9369da45aabd12a517c31f1, type: 3}
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
 --- !u!23 &1709388685
 Renderer:
   m_ObjectHideFlags: 0
@@ -6919,6 +6954,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08b317d7dc041eb4d802320a20710444, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   inputsToRecord:
   - inputName: Horizontal
     isAxis: 1
@@ -6952,6 +6988,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6c26e06de79d4c4e8c492973b439ccb, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   useStaticUI: 1
   acceleration: 2000
   rotateSpeed: 200
@@ -7001,6 +7038,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1280bc568aa1a3643b64b6f20dac1ff1, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   racer: {fileID: 1729211427}
   lapTime: {fileID: 0}
 --- !u!1 &1792091514
@@ -7043,6 +7081,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09e1dbe42b61da346b817df7a1eb8fef, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   lapController: {fileID: 297496502}
   enableAllAxisRotations: 0
   enableGravity: 0
@@ -7463,7 +7502,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -7518,7 +7557,7 @@ ParticleSystemRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -8580,6 +8619,7 @@ ParticleSystem:
       m_Bits: 4294967295
     quality: 0
     voxelSize: .5
+    collisionMessages: 0
   SubModule:
     enabled: 0
     subEmitterBirth: {fileID: 0}
@@ -8704,6 +8744,9 @@ TextMesh:
   m_FontStyle: 2
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 3a0a532ce9369da45aabd12a517c31f1, type: 3}
+  m_Color:
+    serializedVersion: 2
+    rgba: 4294967295
 --- !u!1 &2102704098
 GameObject:
   m_ObjectHideFlags: 0
@@ -8773,6 +8816,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08b317d7dc041eb4d802320a20710444, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   inputsToRecord:
   - inputName: Horizontal
     isAxis: 1
@@ -8806,6 +8850,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6c26e06de79d4c4e8c492973b439ccb, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   useStaticUI: 0
   acceleration: 0
   rotateSpeed: 0
@@ -8855,6 +8900,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2354f94d1b502b142890ed50eadbe23f, type: 3}
   m_Name: 
+  m_EditorClassIdentifier: 
   vcr: {fileID: 2108736592}
 --- !u!1 &2112270793
 GameObject:
